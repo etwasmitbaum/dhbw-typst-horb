@@ -169,7 +169,7 @@
   )
 
   set page(
-    margin: (top: 4cm, bottom: 3cm, left: 4cm, right: 3cm),
+    margin: (top: 2.5cm, bottom: 3.1cm, left: 2.5cm, right: 2.5cm),
     header:
       grid(
         columns: (1fr, 1fr),
