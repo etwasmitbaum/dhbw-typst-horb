@@ -256,25 +256,13 @@
     set par(leading: 0pt, justify: false)
     pagebreak()
     context{ 
-      if in-body.get() {
-        v(page-grid * 10)
-        place(              // place heading number prominently at the upper right corner
-          top + right,
-          dx: 9pt,          // slight adjustment for optimal alignment with right margin
-          text(counter(heading).display(), 
-            top-edge: "bounds",
-            size: page-grid * 10, weight: 900, luma(235), 
+      v(2 * page-grid) 
+        text(
+          size: 2 * page-grid,
+          counter(heading).display() + h(0.5em) + it.body,
+          top-edge: 0.5em,
+          bottom-edge: -0.5em
           )
-        )
-        text(               // heading text on separate line
-          it.body, size: h1-size,
-          top-edge: 0.75em, 
-          bottom-edge: -0.25em,
-        )
-      } else {
-        v(2 * page-grid) 
-        text(size: 2 * page-grid, counter(heading).display() + h(0.5em) + it.body)   // appendix
-      }
     }
   }
 
