@@ -42,8 +42,8 @@
   bibliography: none,
   bib-style: "ieee",
   math-numbering: "(1)",
-  logo-left: image("dhbw.svg"),
-  logo-right: none,
+  logo-left: image("img/general/firmenlogo.png"),
+  logo-right: image("img/general/dhbw.svg"),
   ignored-link-label-keys-for-highlighting: (),
   body,
 ) = {

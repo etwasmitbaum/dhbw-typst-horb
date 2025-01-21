@@ -3,11 +3,13 @@
 #import "glossary.typ": glossary
 
 #show: clean-dhbw.with(
-  title: "Evaluation von Typst zur Erstellung einer Abschlussarbeit",
+  title: "Mustertitel",
   authors: (
-    (name: "Max Mustermann", student-id: "7654321", course: "TINF22B2", course-of-studies: "Informatik", company: (
+    (name: "Max Mustermann", student-id: "7654321", course: "TINF22B2", course-of-studies: "Elektrotechnik", specialization: "Automation",
+    work-weeks: "KW XX - KW XX",
+    company: (
       (name: "ABC GmbH", post-code: "76131", city: "Karlsruhe")
-    )),
+    ),),
     // (name: "Juan Pérez", student-id: "1234567", course: "TIM21", course-of-studies: "Mobile Computer Science", company: (
     //   (name: "ABC S.L.", post-code: "08005", city: "Barcelona", country: "Spain")
     // )),
@@ -20,9 +22,10 @@
   glossary: glossary, // displays the glossary terms defined in the glossary dictionary
   language: "de", // en, de
   supervisor: (company: "John Appleseed", university: "Prof. Dr. Daniel Düsentrieb"),
-  university: "Duale Hochschule Baden-Württemberg",
-  university-location: "Karlsruhe",
+  university: "Dualen Hochschule Baden-Württemberg",
+  university-location: "Stuttgart Campus Horb",
   university-short: "DHBW",
+  confidentiality-marker: (display: true),
   // for more options check the package documentation (https://typst.app/universe/package/clean-dhbw)
 )
 

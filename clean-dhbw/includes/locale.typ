@@ -4,8 +4,8 @@
 )
 
 #let TITLEPAGE_DATE = (
-  "de": "Eingereicht am:",
-  "en": "Submitted on:",
+  "de": "Bearbeitungszeitraum:",
+  "en": "Processing period:",
 )
 
 #let TITLEPAGE_STUDENT_ID = (

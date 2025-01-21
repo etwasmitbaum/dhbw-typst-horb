@@ -25,7 +25,7 @@
 
   set page(     
     // identical to document
-    margin: (top: 4cm, bottom: 3cm, left: 4cm, right: 3cm),   
+    margin: (top: 2.5cm, bottom: 3.1cm, left: 2.5cm, right: 2.5cm),   
   )
   // The whole page in `title-font`, all elements centered
   set text(font: title-font, size: page-grid)
@@ -42,69 +42,31 @@
   } else if logo-left != none and logo-right != none {    // two logos: left & right
     place(
       top + left,
-      dy: -4 * page-grid,
+      dy: -3 * page-grid,
       box(logo-left, height: 3 * page-grid) 
     )
     place(
       top + right,
-      dy: -4 * page-grid,
+      dy: -3 * page-grid,
       box(logo-right, height: 3 * page-grid) 
     )
+    v(0.5 * page-grid)
+    line(length: 100%, stroke: 0.5pt)
   }
 
   // ---------- Title ---------------------------------------
 
-  v(7 * page-grid)     
-  text(weight: "bold", fill: luma(80), size: 1.5 * page-grid, title)
+  v(5 * page-grid)     
+  text(weight: "bold", size: 2 * page-grid, title)
   v(page-grid)
   
   // ---------- Confidentiality Marker (optional) ---------------------------------------
 
   if (confidentiality-marker.display) {
-    let size = 7em
-    let display = false
-    let title-spacing = 2em
-    let x-offset = 0pt
-
-    let y-offset = if (many-authors) {
-      7pt
-    } else {
-      0pt
-    }
-
-    if (type-of-degree == none and type-of-thesis == none) {
-      title-spacing = 0em
-    }
-
-    if ("display" in confidentiality-marker) {
-      display = confidentiality-marker.display
-    }
-    if ("offset-x" in confidentiality-marker) {
-      x-offset = confidentiality-marker.offset-x
-    }
-    if ("offset-y" in confidentiality-marker) {
-      y-offset = confidentiality-marker.offset-y
-    }
-    if ("size" in confidentiality-marker) {
-      size = confidentiality-marker.size
-    }
-    if ("title-spacing" in confidentiality-marker) {
-      confidentiality-marker.title-spacing
-    }
-
-    v(title-spacing)
-
-    let color = if (show-confidentiality-statement) {
-      red
-    } else {
-      green.darken(5%)
-    }
-
     place(
       right,
-      dx: 35pt + x-offset,
-      dy: -70pt + y-offset,
-      circle(radius: size / 2, fill: color),
+      dy: -10em,
+      circle(radius: 1em, fill: red),
     )
   }
 
@@ -112,21 +74,23 @@
   // 
   // type of thesis (optional)
   if (type-of-thesis != none and type-of-thesis.len() > 0) {
-    align(center, text(size: page-grid, type-of-thesis))
-    v(0.25 * page-grid)
+    align(center, text(size: 1.5 * page-grid, type-of-thesis))
+    v(page-grid)
   }
 
   // course of studies
-  text(TITLEPAGE_SECTION_B.at(language) + authors.map(author => author.course-of-studies).dedup().join(" | "),)
+  text("des " + TITLEPAGE_SECTION_B.at(language)+ [ ] + authors.map(author => author.course-of-studies).dedup().join(" | ") + [ ] + authors.map(author => author.specialization).dedup().join(" | "),)
   v(0.25 * page-grid)
 
   // university
-  text(university + [ ] + university-location)
+  text("an der " + university)
+  linebreak()
+  text(university-location)
 
 
   // ---------- Author(s) ---------------------------------------
 
-  v(8 * page-grid)
+  v(5 * page-grid)
   grid(
     columns: 100%,
     gutter: if (many-authors) {
@@ -137,7 +101,11 @@
     ..authors.map(author => align(
       center,
       {
+        "von"
+        linebreak()
         text(author.name)
+        v(1.5 * page-grid)
+        text("Abgabe: " + date.display(date-format))
       },
     ))
   )
@@ -150,18 +118,12 @@
     grid(
       columns: (auto, auto),
       row-gutter: 1em,
-      column-gutter: 1em,
-      align: (right, left),
+      column-gutter: 3em,
+      align: (left, left),
 
       // submission date
       text(weight: "bold", fill: luma(80), TITLEPAGE_DATE.at(language)),
-      text(
-        if (type(date) == datetime) {
-          date.display(date-format)
-        } else {
-          date.at(0).display(date-format) + [ -- ] + date.at(1).display(date-format)
-        },
-      ),
+      text(authors.map(author => author.work-weeks).dedup().join(" | ")),
 
       // students
       align(text(weight: "bold", fill: luma(80), TITLEPAGE_STUDENT_ID.at(language)), top),
