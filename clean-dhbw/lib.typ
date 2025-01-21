@@ -192,6 +192,23 @@
         grid.cell(colspan: 2, line(length: 100%, stroke: 0.5pt)),
       ),
       header-ascent: page-grid,
+      footer: // also use grid here, to make it easily extendable 
+        grid(
+          columns: (1fr),
+          align: (right),
+          row-gutter: 0.5em,
+    	    grid.cell(colspan: 1, line(length: 100%, stroke: 0.5pt)),
+          text(font: heading-font, size: body-size, 
+            number-type: "lining",
+            context {if in-frontmatter.get() {
+                counter(page).display("i")      // roman page numbers for the   frontmatter
+              } else {
+                counter(page).display("1")      // arabic page numbers for the  rest of the document
+              }
+            }
+          ),
+        ),
+      footer-descent: page-grid
   )
 
 
@@ -237,8 +254,10 @@
     )
   }
 
+  pagebreak(weak: true) // this is needed so the footer display the correct page number (else 0 or n would be displayed)
+
   in-frontmatter.update(false)  // end of frontmatter
-  counter(page).update(0)       // so the first chapter starts at page 1 (now in arabic numbers)
+  counter(page).update(1)       // so the first chapter starts at page 1 (now in arabic numbers)
 
   // ========== DOCUMENT BODY ========================================
 
