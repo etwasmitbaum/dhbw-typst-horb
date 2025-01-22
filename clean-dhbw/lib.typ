@@ -26,6 +26,8 @@
   acronym-spacing: 5em,
   glossary-spacing: 1.5em,
   abstract: none,
+  abstract-second-language: none,
+  second-language-for-abstract: none,
   appendix: none,
   acronyms: none,
   glossary: none,
@@ -217,6 +219,12 @@
   if (show-abstract and abstract != none) {
     heading(level: 1, numbering: none, outlined: false, ABSTRACT.at(language))
     text(abstract)
+
+    if (second-language-for-abstract != none and abstract-second-language != none)  {
+      heading(level: 1, numbering: none, outlined: false, ABSTRACT.at(second-language-for-abstract))
+      text(abstract-second-language)
+    }
+    
     pagebreak()
   }
 

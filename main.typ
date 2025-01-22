@@ -1,6 +1,7 @@
 #import "clean-dhbw/lib.typ": *
 #import "acronyms.typ": acronyms
 #import "glossary.typ": glossary
+#import "abstract.typ": abstract, abstract-second-language
 
 #show: clean-dhbw.with(
   title: "Mustertitel",
@@ -16,6 +17,9 @@
   ),
   type-of-thesis: "Bachelorarbeit",
   acronyms: acronyms, // displays the acronyms defined in the acronyms dictionary
+  abstract: abstract,
+  abstract-second-language: abstract-second-language,
+  second-language-for-abstract: "en",
   at-university: false, // if true the company name on the title page and the confidentiality statement are hidden
   bibliography: bibliography("sources.bib"),
   date: datetime.today(),
