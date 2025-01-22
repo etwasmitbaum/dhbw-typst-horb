@@ -125,10 +125,15 @@
   } else {
     ()
   }
-  show link: it => if (str(it.dest) not in (acronym-keys + glossary-keys + ignored-link-label-keys-for-highlighting)) {
-    text(fill: blue, it)
-  } else {
-    it
+  show link: it => {
+    // When calling link with a location it errors because str(it.dest) expects different types
+    if type(it.dest) != location {
+      if (str(it.dest) not in (acronym-keys + glossary-keys + ignored-link-label-keys-for-highlighting)) {
+        text(fill: blue, it)
+      } 
+    } else {
+      it
+    }
   }
 
   // ========== TITLEPAGE ========================================
@@ -236,20 +241,49 @@
   // ---------- Outline ---------------------------------------
 
   // top-level TOC entries in bold without filling
-  show outline.entry.where(level: 1): it => {
-    v(page-grid, weak: true)
-    set text(font: heading-font, weight: "semibold", size: body-size)
-    it.body
-    box(width: 1fr,)
-    text(weight: "semibold", it.page)
+  show outline.entry.where(level: 1): level1 => {
+    // Modify the display of heading in the outline
+    if (level1.element.func() == heading) {
+      v(page-grid, weak: true)
+      set text(font: heading-font, weight: "semibold", size: body-size)
+      link(level1.element.location(),
+        {
+          level1.body
+          box(width: 1fr)
+          text(weight: "semibold", level1.page)
+        }
+      )
+    }
+    // Figure types are list of tables etc. So there level 1 look is different
+    else if (level1.element.func() == figure) {
+      link(level1.element.location(),
+        {
+          level1.body
+          box(width: 1fr)
+          text(weight: "semibold", level1.page)
+        }
+      )
+    }
+
+    // Default outline
+    else {
+      level1
+    }
+    
   }
 
   // other TOC entries in regular with adapted filling
   show outline.entry.where(level: 2).or(outline.entry.where(level: 3)): it => {
     set text(font: heading-font, size: body-size)
-    it.body + "  "
-    box(width: 1fr, repeat([.], gap: 2pt), baseline: 30%, height: body-size + 1pt)
-    "  " + it.page
+    link(it.element.location(),
+      {
+        it.body
+        "  "
+        box(width: 1fr, repeat([.], gap: 2pt), baseline: 30%, height: body-size + 1pt)
+        "  "
+        it.page
+      }
+    )
   }
 
   if (show-table-of-contents) {
