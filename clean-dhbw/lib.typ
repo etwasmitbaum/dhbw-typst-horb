@@ -223,7 +223,40 @@
 
   show heading: set text(weight: "bold", fill: luma(80), font: heading-font)
   show heading.where(level: 1): it => {v(2 * page-grid) + text(size: 2 * page-grid, it) + v(0.8em)}
+// ========== LEGAL BACKMATTER ========================================
 
+  // ---------- Confidentiality Statement ---------------------------------------
+
+  if (not at-university and show-confidentiality-statement) {
+    confidentiality-statement(
+      authors,
+      title,
+      confidentiality-statement-content,
+      university,
+      university-location,
+      date,
+      language,
+      many-authors,
+      date-format,
+    )
+  }
+
+  // ---------- Declaration Of Authorship ---------------------------------------
+
+  if (show-declaration-of-authorship) {
+    declaration-of-authorship(
+      authors,
+      title,
+      type-of-thesis,
+      declaration-of-authorship-content,
+      date,
+      language,
+      many-authors,
+      at-university,
+      city,
+      date-format,
+    )
+  }
   // ---------- Abstract ---------------------------------------
 
   if (show-abstract and abstract != none) {
@@ -395,41 +428,4 @@
   if (appendix != none) {       // the user has to provide heading(s)
     appendix
   }
-
-  // ========== LEGAL BACKMATTER ========================================
-
-  set heading(numbering: it => h(-18pt) + "", outlined: false)
-
-  // ---------- Confidentiality Statement ---------------------------------------
-
-  if (not at-university and show-confidentiality-statement) {
-    confidentiality-statement(
-      authors,
-      title,
-      confidentiality-statement-content,
-      university,
-      university-location,
-      date,
-      language,
-      many-authors,
-      date-format,
-    )
-  }
-
-  // ---------- Declaration Of Authorship ---------------------------------------
-
-  if (show-declaration-of-authorship) {
-    declaration-of-authorship(
-      authors,
-      title,
-      declaration-of-authorship-content,
-      date,
-      language,
-      many-authors,
-      at-university,
-      city,
-      date-format,
-    )
-  }
-
 }
