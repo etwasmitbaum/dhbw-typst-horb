@@ -172,24 +172,17 @@
     margin: (top: 2.5cm, bottom: 3.1cm, left: 2.5cm, right: 2.5cm),
     header:
       grid(
-        columns: (1fr, 1fr),
-        align: (left, right),
+        columns: (1fr, 1fr, 1fr),
+        align: (left, center, right),
         row-gutter: 0.5em,
+        box(logo-left, height: 2 * page-grid),
         smallcaps(text(font: heading-font, size: body-size, 
           context {
             hydra(1, display: (_, it) => it.body, use-last: true, skip-starting: false)
           },
         )),
-        text(font: heading-font, size: body-size, 
-          number-type: "lining",
-          context {if in-frontmatter.get() {
-              counter(page).display("i")      // roman page numbers for the frontmatter
-            } else {
-              counter(page).display("1")      // arabic page numbers for the rest of the document
-            }
-          }
-        ),
-        grid.cell(colspan: 2, line(length: 100%, stroke: 0.5pt)),
+        box(logo-right, height: 2 * page-grid),
+        grid.cell(colspan: 3, line(length: 100%, stroke: 0.5pt)),
       ),
       header-ascent: page-grid,
       footer: // also use grid here, to make it easily extendable 
