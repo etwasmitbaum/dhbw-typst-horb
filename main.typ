@@ -114,6 +114,7 @@ Quellcode mit entsprechender Formatierung wird wie folgt eingefügt:
 
 #figure(
   caption: "Ein Stück Quellcode",
+  supplement: "Code",
   sourcecode[```ts
     const ReactComponent = () => {
       return (
@@ -127,6 +128,22 @@ Quellcode mit entsprechender Formatierung wird wie folgt eingefügt:
     ```],
 )
 
+Das `supplement` Argument überschreibt, als was die `figure` in der Caption bezeichnet wird.
+Der Default ist hier gezeigt:
+#figure(
+  caption: "Ein Stück Quellcode",
+  sourcecode[```ts
+    const ReactComponent = () => {
+      return (
+        <div>
+          <h1>Hello World</h1>
+        </div>
+      );
+    };
+
+    export default ReactComponent;
+    ```],
+)
 
 == Verweise
 

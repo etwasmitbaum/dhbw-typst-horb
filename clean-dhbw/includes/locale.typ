@@ -97,6 +97,21 @@ The content of this thesis may not be made available, either in its entirety or 
   "en": "Contents",
 )
 
+#let TABLE_OF_FIGURES = (
+  "de": "Abbildungsverzeichnis",
+  "en": "List of figures",
+)
+
+#let TABLE_OF_TABLES = (
+  "de": "Tabellenverzeichnis",
+  "en": "List of tables",
+)
+
+#let TABLE_OF_CODE = (
+  "de": "Quellcodeverzeichnis",
+  "en": "List of Code",
+)
+
 #let ABSTRACT = (
   "de": "Zusammenfassung",
   "en": "Abstract",

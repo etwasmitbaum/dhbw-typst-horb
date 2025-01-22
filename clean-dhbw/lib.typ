@@ -106,6 +106,11 @@
   // customize look of figure
   set figure.caption(separator: [ --- ], position: bottom)
 
+  // Figure number will start with chapter number
+  set figure(numbering: (..num) =>
+    numbering("1.1", counter(heading).get().first(), num.pos().first())
+  )
+
   // math numbering
   set math.equation(numbering: math-numbering)
 
@@ -212,7 +217,7 @@
   // ---------- Heading Format (Part I) ---------------------------------------
 
   show heading: set text(weight: "bold", fill: luma(80), font: heading-font)
-  show heading.where(level: 1): it => {v(2 * page-grid) + text(size: 2 * page-grid, it)}
+  show heading.where(level: 1): it => {v(2 * page-grid) + text(size: 2 * page-grid, it) + v(0.8em)}
 
   // ---------- Abstract ---------------------------------------
 
@@ -255,6 +260,39 @@
     )
   }
 
+  pagebreak(weak: true)
+
+  // Table of figures
+  outline(
+    title: TABLE_OF_FIGURES.at(language),
+    target: figure.where(kind: image),
+    indent: auto,
+  )
+
+  pagebreak(weak: true)
+
+  // Table of tables
+  outline(
+    title: TABLE_OF_TABLES.at(language),
+    target: figure.where(kind: table),
+    indent: auto,
+  )
+
+  pagebreak(weak: true)
+
+  if (show-acronyms and acronyms != none and acronyms.len() > 0) {
+    print-acronyms(language, acronym-spacing)
+  }
+
+  pagebreak(weak: true)
+
+  // Table of tables
+  outline(
+    title: TABLE_OF_CODE.at(language),
+    target: figure.where(kind: raw),  // kind ist raw, since codelst wraps around it (see docs of codelst)
+    indent: auto,
+  )
+
   pagebreak(weak: true) // this is needed so the footer display the correct page number (else 0 or n would be displayed)
 
   in-frontmatter.update(false)  // end of frontmatter
@@ -281,7 +319,7 @@
           size: 2 * page-grid,
           counter(heading).display() + h(0.5em) + it.body,
           top-edge: 0.5em,
-          bottom-edge: -0.5em
+          bottom-edge: -0.5em // move text further down
           )
     }
   }
@@ -312,11 +350,7 @@
     bibliography
   }
 
-  // ---------- Acronyms & Glossary ---------------------------------------
-
-  if (show-acronyms and acronyms != none and acronyms.len() > 0) {
-    print-acronyms(language, acronym-spacing)
-  }
+  // ---------- Glossary ---------------------------------------
 
   if (glossary != none and glossary.len() > 0) {
     print-glossary(language, glossary-spacing)
