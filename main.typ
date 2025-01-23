@@ -2,6 +2,7 @@
 #import "acronyms.typ": acronyms
 #import "glossary.typ": glossary
 #import "abstract.typ": abstract, abstract-second-language
+#import "appendix.typ": appendix
 
 #show: clean-dhbw.with(
   title: "Mustertitel",
@@ -23,7 +24,8 @@
   at-university: false, // if true the company name on the title page and the confidentiality statement are hidden
   bibliography: bibliography("sources.bib"),
   date: datetime.today(),
-  glossary: glossary, // displays the glossary terms defined in the glossary dictionary
+  //glossary: glossary, // displays the glossary terms defined in the glossary dictionary
+  appendix: appendix, // displays the appendix w#ith the text in the appendix.typ file
   language: "de", // en, de
   supervisor: (company: "John Appleseed", university: "Prof. Dr. Daniel Düsentrieb"),
   university: "Dualen Hochschule Baden-Württemberg",
@@ -55,12 +57,6 @@ Verwende die `acr`-Funktion und deren Geschwister `acrpl`, `acrs` und `acrspl`, 
 - #acrpl("API") – `acrpl`: Plural mit Erläuterung
 - #acrs("REST") - `acrs`: Singular ohne Erläuterung
 - #acrspl("API") – `acrspl`: Plural ohne Erläuterung
-
-== Glossar
-
-Verwende die `gls`-Funktion, um Ausdrücke aus dem Glossar einzufügen, die dann dorthin verlinkt werden. Ein Beispiel dafür ist: 
-
-- Eine #gls("Softwareschnittstelle") ist ein logischer Berührungspunkt in einem Softwaresystem. Sie ermöglicht und regelt den Austausch von Kommandos und Daten zwischen verschiedenen Prozessen und Komponenten.
 
 == Listen
 

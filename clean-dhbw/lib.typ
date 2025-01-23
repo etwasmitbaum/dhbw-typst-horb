@@ -425,7 +425,9 @@
 
   // ---------- Appendix (other contents) ---------------------------------------
 
-  if (appendix != none) {       // the user has to provide heading(s)
+  if (appendix != none) {       
+    // the user has to provide heading(s)
+    heading(level: 1)[#APPENDIX.at(language)]
     appendix
   }
 }

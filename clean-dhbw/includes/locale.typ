@@ -149,8 +149,8 @@
 )
 
 #let REFERENCES = (
-  "de": "Literatur",
-  "en": "References",
+  "de": "Literaturverzeichniss",
+  "en": "List of references",
 )
 
 #let APPENDIX = (
