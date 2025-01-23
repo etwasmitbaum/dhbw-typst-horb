@@ -83,9 +83,9 @@
 
   // ---------- Fonts & Related Measures ---------------------------------------
 
-  let body-font = "Source Serif 4"
+  let body-font = "Times New Roman"
   let body-size = 11pt
-  let heading-font = "Source Sans 3"
+  let heading-font = "Arial"
   let h1-size = 40pt
   let h2-size = 16pt
   let h3-size = 11pt
@@ -221,7 +221,7 @@
   
   // ---------- Heading Format (Part I) ---------------------------------------
 
-  show heading: set text(weight: "bold", fill: luma(80), font: heading-font)
+  show heading: set text(weight: "bold", font: heading-font)
   show heading.where(level: 1): it => {v(2 * page-grid) + text(size: 2 * page-grid, it) + v(0.8em)}
 // ========== LEGAL BACKMATTER ========================================
 
