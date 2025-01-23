@@ -182,6 +182,7 @@
 
   set page(
     margin: (top: 2.5cm, bottom: 3.1cm, left: 2.5cm, right: 2.5cm),
+    // Header
     header:
       grid(
         columns: (1fr, 1fr, 1fr),
@@ -197,6 +198,7 @@
         grid.cell(colspan: 3, line(length: 100%, stroke: 0.5pt)),
       ),
       header-ascent: page-grid,
+      // Footer
       footer: // also use grid here, to make it easily extendable 
         grid(
           columns: (1fr),
@@ -206,14 +208,22 @@
           text(font: heading-font, size: body-size, 
             number-type: "lining",
             context {if in-frontmatter.get() {
-                counter(page).display("i")      // roman page numbers for the   frontmatter
+                counter(page).display("I")      // roman page numbers for the   frontmatter
               } else {
                 counter(page).display("1")      // arabic page numbers for the  rest of the document
               }
             }
           ),
         ),
-      footer-descent: page-grid
+      footer-descent: page-grid,
+      numbering: (number) => {
+        // Change numbering so it also shows correctly in the outline
+        if in-frontmatter.get() {
+          numbering("I", number)
+        } else {
+          numbering("1", number)
+        }
+      }
   )
 
 
@@ -287,6 +297,7 @@
         }
       )
     }
+
     // Figure types are list of tables etc. So there level 1 look is different
     else if (level1.element.func() == figure) {
       link(level1.element.location(),
@@ -331,7 +342,7 @@
 
   // Table of figures
   outline(
-    title: TABLE_OF_FIGURES.at(language),
+    title: heading(TABLE_OF_FIGURES.at(language), outlined: true),
     target: figure.where(kind: image),
     indent: auto,
   )
@@ -340,13 +351,14 @@
 
   // Table of tables
   outline(
-    title: TABLE_OF_TABLES.at(language),
+    title: heading(TABLE_OF_TABLES.at(language), outlined: true),
     target: figure.where(kind: table),
     indent: auto,
   )
 
   pagebreak(weak: true)
 
+  // Acronym
   if (show-acronyms and acronyms != none and acronyms.len() > 0) {
     print-acronyms(language, acronym-spacing)
   }
@@ -355,7 +367,7 @@
 
   // Table of tables
   outline(
-    title: TABLE_OF_CODE.at(language),
+    title: heading(TABLE_OF_CODE.at(language), outlined: true),
     target: figure.where(kind: raw),  // kind ist raw, since codelst wraps around it (see docs of codelst)
     indent: auto,
   )

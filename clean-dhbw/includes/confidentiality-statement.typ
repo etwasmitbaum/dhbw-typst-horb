@@ -13,7 +13,7 @@
 ) = {
   let authors-by-city = authors.map(author => author.company.city).dedup()
 
-  heading(level: 1, CONFIDENTIALITY_STATEMENT_TITLE.at(language))
+  heading(level: 1, CONFIDENTIALITY_STATEMENT_TITLE.at(language), outlined: false)
   v(1em)
 
   if (confidentiality-statement-content != none) {

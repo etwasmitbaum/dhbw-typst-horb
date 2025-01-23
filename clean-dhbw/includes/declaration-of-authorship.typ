@@ -12,7 +12,7 @@
   city,
   date-format,
 ) = {
-  heading(level: 1, DECLARATION_OF_AUTHORSHIP_TITLE.at(language))
+  heading(level: 1, DECLARATION_OF_AUTHORSHIP_TITLE.at(language), outlined: false)
   v(1em)
 
   if (declaration-of-authorship-content != none) {

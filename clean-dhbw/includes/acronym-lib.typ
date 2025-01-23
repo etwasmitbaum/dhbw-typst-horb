@@ -98,7 +98,7 @@
 }
 
 #let print-acronyms(language, acronym-spacing) = {
-  heading(level: 1, outlined: false)[#ACRONYMS.at(language)]
+  heading(level: 1, outlined: true)[#ACRONYMS.at(language)]
 
   context {
     let acronyms = acros.get()
