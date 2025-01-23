@@ -109,7 +109,7 @@ Abbildungen und Tabellen (mit entsprechenden Beschriftungen) werden wie folgt er
 Quellcode mit entsprechender Formatierung wird wie folgt eingefügt:
 
 #figure(
-  caption: "Ein Stück Quellcode",
+  caption: "Ein Stück Quellcode 1",
   supplement: "Code",
   sourcecode[```ts
     const ReactComponent = () => {
@@ -127,7 +127,7 @@ Quellcode mit entsprechender Formatierung wird wie folgt eingefügt:
 Das `supplement` Argument überschreibt, als was die `figure` in der Caption bezeichnet wird.
 Der Default ist hier gezeigt:
 #figure(
-  caption: "Ein Stück Quellcode",
+  caption: "Ein Stück Quellcode 2",
   sourcecode[```ts
     const ReactComponent = () => {
       return (
@@ -150,6 +150,21 @@ Für Literaturverweise verwendet man die `cite`-Funktion oder die Kurzschreibwei
 Tabellen, Abbildungen und andere Elemente können mit einem Label in spitzen Klammern gekennzeichnet werden (die Tabelle oben hat z.B. das Label `<table>`). Sie kann dann mit `@table` referenziert werden. Das ergibt im konkreten Fall: @table
 
 = Fazit
+
+#figure(
+  caption: "Ein Stück Quellcode 3",
+  sourcecode[```ts
+    const ReactComponent = () => {
+      return (
+        <div>
+          <h1>Hello World</h1>
+        </div>
+      );
+    };
+
+    export default ReactComponent;
+    ```],
+)
 
 #lorem(50)
 

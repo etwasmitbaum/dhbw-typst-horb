@@ -107,8 +107,9 @@
   set figure.caption(separator: [ --- ], position: bottom)
 
   // Figure number will start with chapter number
-  set figure(numbering: (..num) =>
-    numbering("1.1", counter(heading).get().first(), num.pos().first())
+  set figure(numbering: (..num) => {
+      numbering("1.1", counter(heading).get().first(), num.pos().first())
+    }
   )
 
   // math numbering
@@ -291,7 +292,14 @@
       set text(font: heading-font, weight: "semibold", size: body-size)
       link(level1.element.location(),
         {
-          level1.body
+          let head = level1.element
+          let number = if head.numbering != none {
+            numbering(head.numbering, ..counter(heading).at(head.location()))
+            h(1em)
+          }
+          number
+          head.body
+
           box(width: 1fr)
           text(weight: "semibold", level1.page)
         }
@@ -300,11 +308,38 @@
 
     // Figure types are list of tables etc. So there level 1 look is different
     else if (level1.element.func() == figure) {
-      link(level1.element.location(),
-        {
-          level1.body
-          box(width: 1fr)
-          text(weight: "semibold", level1.page)
+      set text(font: heading-font, size: body-size)
+      
+        
+        let fig = level1.element
+        let figNumbering = fig.numbering
+        let number = if figNumbering != none {
+          let headNumber = counter(heading).at(fig.location())
+          let figNumber = fig.counter.at(fig.location())
+          
+          context {
+            // Save the current heading counter for later use
+            let counterBefore = counter(heading).get()
+            // Update the heading counter to the headNumber of the current figure
+            counter(heading).update(headNumber.first())
+            context {
+              // With the updated heading counter, call the numbering function of the   figure to generate the correct number
+              figNumbering(..figNumber)
+            }
+            // Reset counter to stored value
+            counter(heading).update(..counterBefore)
+          }
+        }
+
+        link(level1.element.location(), {
+          box(width: 1fr, {
+            fig.supplement + " "
+            number
+          })
+          box(width: 3fr, {
+            fig.caption.body
+          })
+          level1.page
         }
       )
     }
@@ -313,19 +348,24 @@
     else {
       level1
     }
-    
   }
 
   // other TOC entries in regular with adapted filling
-  show outline.entry.where(level: 2).or(outline.entry.where(level: 3)): it => {
+  show outline.entry.where(level: 2).or(outline.entry.where(level: 3)): level2and3 => {
     set text(font: heading-font, size: body-size)
-    link(it.element.location(),
+    link(level2and3.element.location(),
       {
-        it.body
-        "  "
-        box(width: 1fr, repeat([.], gap: 2pt), baseline: 30%, height: body-size + 1pt)
-        "  "
-        it.page
+        let head = level2and3.element
+        let number = if head.numbering != none {
+            numbering(head.numbering, ..counter(heading).at(head.location()))
+            h(1em)
+          }
+        number
+        head.body
+        h(1em)
+        box(width: 1fr, repeat([.], gap: 0.5em), baseline: 30%, height: body-size + 1pt)
+        h(1em)
+        level2and3.page
       }
     )
   }
@@ -392,6 +432,10 @@
   show heading.where(level: 1): it => {
     set par(leading: 0pt, justify: false)
     pagebreak()
+    // Reset the counter after level 1 heading, so they start from 1 again
+    counter(figure.where(kind: image)).update(0)
+    counter(figure.where(kind: raw)).update(0)
+    counter(figure.where(kind: table)).update(0)
     context{ 
       v(2 * page-grid) 
         text(
