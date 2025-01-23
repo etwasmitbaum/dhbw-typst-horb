@@ -216,12 +216,12 @@
           ),
         ),
       footer-descent: page-grid,
-      numbering: (number) => {
+      numbering: (..number) => {
         // Change numbering so it also shows correctly in the outline
         if in-frontmatter.get() {
-          numbering("I", number)
+          numbering("I", ..number)
         } else {
-          numbering("1", number)
+          numbering("1", ..number)
         }
       }
   )
