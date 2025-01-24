@@ -25,6 +25,7 @@
   show-abstract: true,
   acronym-spacing: 5em,
   glossary-spacing: 1.5em,
+  outline-number-title-spacing: 1em,
   abstract: none,
   abstract-second-language: none,
   second-language-for-abstract: none,
@@ -295,7 +296,7 @@
           let head = level1.element
           let number = if head.numbering != none {
             numbering(head.numbering, ..counter(heading).at(head.location()))
-            h(1em)
+            h(outline-number-title-spacing)
           }
           number
           head.body
@@ -310,7 +311,6 @@
     else if (level1.element.func() == figure) {
       set text(font: heading-font, size: body-size)
       
-        
         let fig = level1.element
         let figNumbering = fig.numbering
         let number = if figNumbering != none {
@@ -351,21 +351,42 @@
   }
 
   // other TOC entries in regular with adapted filling
-  show outline.entry.where(level: 2).or(outline.entry.where(level: 3)): level2and3 => {
+  show outline.entry.where(level: 2): level2 => {
     set text(font: heading-font, size: body-size)
-    link(level2and3.element.location(),
+    link(level2.element.location(),
       {
-        let head = level2and3.element
+        let head = level2.element
+        let number = if head.numbering != none {
+            numbering(head.numbering, ..counter(heading).at(head.location()))
+            h(outline-number-title-spacing)
+          }
+        h(outline-number-title-spacing)  // must be the same as the space of level 1
+        number
+        head.body
+        h(1em)
+        box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt) 
+        h(1em)
+        level2.page
+      }
+    )
+  }
+
+  show outline.entry.where(level: 3): level3 => {
+    set text(font: heading-font, size: body-size)
+    link(level3.element.location(),
+      {
+        let head = level3.element
         let number = if head.numbering != none {
             numbering(head.numbering, ..counter(heading).at(head.location()))
             h(1em)
           }
+        h(outline-number-title-spacing * 2)  // must be the same as the space of level 1 + level 2
         number
         head.body
         h(1em)
-        box(width: 1fr, repeat([.], gap: 0.5em), baseline: 30%, height: body-size + 1pt)
+        box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt) 
         h(1em)
-        level2and3.page
+        level3.page
       }
     )
   }
