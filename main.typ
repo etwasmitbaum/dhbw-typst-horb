@@ -49,6 +49,27 @@
 
 Im folgenden werden einige nützliche Elemente und Funktionen zum Erstellen von Typst-Dokumenten mit diesem Template erläutert.
 
+== Mathe
+Eine Gleichung mit Caption einfügen:
+#equation(caption: "Meine Gleichung 1", label: <gleichung1>,
+  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+)
+
+Ohne Caption kann die Gleichung direkt verwendet werden:
+$ 7.32 beta +
+  (i=0)^nabla Q_i / 2 + 1/2 $
+
+Die Gleichung kann auch im Formelverzeichnis auftauchen und ein Label erhalten, siehe:
+#equation(caption: "Meine Gleichung 4", label: <meineTolleGleichung>,
+  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+)
+
+Ohne Caption und mit Label geht auch:
+#equation(label: <meineTolleGleichung2>,
+  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+)
+#equation($ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $)
+
 == Abkürzungen
 
 Verwende die `acr`-Funktion und deren Geschwister `acrpl`, `acrs` und `acrspl`, um Abkürzungen aus dem Abkürzungsverzeichnis einzufügen. Beispiele dafür sind: 
@@ -110,7 +131,6 @@ Quellcode mit entsprechender Formatierung wird wie folgt eingefügt:
 
 #figure(
   caption: "Ein Stück Quellcode 1",
-  supplement: "Code",
   sourcecode[```ts
     const ReactComponent = () => {
       return (
@@ -151,6 +171,15 @@ Tabellen, Abbildungen und andere Elemente können mit einem Label in spitzen Kla
 
 = Fazit
 
+#lorem(50)
+
+#lorem(120)
+
+#lorem(80)
+
+= Wiederholungen um Numbering zu testen
+
+== Code
 #figure(
   caption: "Ein Stück Quellcode 3",
   sourcecode[```ts
@@ -166,8 +195,54 @@ Tabellen, Abbildungen und andere Elemente können mit einem Label in spitzen Kla
     ```],
 )
 
-#lorem(50)
+== Gleichungen
+#equation(
+  caption: "Meine Gleichung",
+  label: <mitternachtsformel>,
+  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+)
 
-#lorem(120)
+#equation(
+  caption: "Meine Gleichung",
+  label: <gleichungUnten2>,
+  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+)
 
-#lorem(80)
+$ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+$ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+
+#equation(
+  caption: "Meine Gleichung",
+  label: <gleichungUnten5>,
+  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+)
+
+In @mitternachtsformel ist die Mitternachtsformel zu sehen.
+
+== Tabelle
+#figure(
+  caption: "Eine Tabelle",
+  table(
+    columns: (1fr, 50%, auto),
+    inset: 10pt,
+    align: horizon,
+    table.header(
+      [],
+      [*Area*],
+      [*Parameters*],
+    ),
+
+    text("cylinder.svg"),
+    $ pi h (D^2 - d^2) / 4 $,
+    [
+      $h$: height \
+      $D$: outer radius \
+      $d$: inner radius
+    ],
+
+    text("tetrahedron.svg"), $ sqrt(2) / 12 a^3 $, [$a$: edge length],
+  ),
+)
+
+== Bilder
+#figure(caption: "Eine Abbildung", image(width: 4cm, "assets/ts.svg"))

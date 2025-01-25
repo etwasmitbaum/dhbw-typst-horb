@@ -7,6 +7,7 @@
 #import "includes/confidentiality-statement.typ": *
 #import "includes/declaration-of-authorship.typ": *
 #import "includes/check-attributes.typ": *
+#import "includes/custom-equation.typ"
 
 // Workaround for the lack of an `std` scope.
 #let std-bibliography = bibliography
@@ -106,6 +107,8 @@
 
   // customize look of figure
   set figure.caption(separator: [ --- ], position: bottom)
+  // change "listing" to "code"
+  show figure.where(kind: raw): set figure(supplement: CODE.at(language))
 
   // Figure number will start with chapter number
   set figure(numbering: (..num) => {
@@ -114,7 +117,10 @@
   )
 
   // math numbering
-  set math.equation(numbering: math-numbering)
+  set math.equation(numbering: (..num) => {
+      numbering("(1.1)", counter(heading).get().first(), num.pos().first())
+    }
+  )
 
   // set link style for links that are not acronyms
   let acronym-keys = if (acronyms != none) {
@@ -127,16 +133,17 @@
   } else {
     ()
   }
-  show link: it => {
-    // When calling link with a location it errors because str(it.dest) expects different types
-    if type(it.dest) != location {
-      if (str(it.dest) not in (acronym-keys + glossary-keys + ignored-link-label-keys-for-highlighting)) {
-        text(fill: blue, it)
-      } 
-    } else {
-      it
-    }
-  }
+// Make all Links black
+//  show link: it => {
+//    // When calling link with a location it errors because str(it.dest) expects different types
+//    if type(it.dest) != location {
+//      if (str(it.dest) not in (acronym-keys + glossary-keys + ignored-link-label-keys-for-highlighting)) {
+//        text(fill: blue, it)
+//      } 
+//    } else {
+//      it
+//    }
+//  }
 
   // ========== TITLEPAGE ========================================
 
@@ -235,6 +242,7 @@
 
   show heading: set text(weight: "bold", font: heading-font)
   show heading.where(level: 1): it => {v(2 * page-grid) + text(size: 2 * page-grid, it) + v(0.8em)}
+  show outline: set heading(outlined: true)
 // ========== LEGAL BACKMATTER ========================================
 
   // ---------- Confidentiality Statement ---------------------------------------
@@ -403,7 +411,7 @@
 
   // Table of figures
   outline(
-    title: heading(TABLE_OF_FIGURES.at(language), outlined: true),
+    title: TABLE_OF_FIGURES.at(language),
     target: figure.where(kind: image),
     indent: auto,
   )
@@ -412,10 +420,41 @@
 
   // Table of tables
   outline(
-    title: heading(TABLE_OF_TABLES.at(language), outlined: true),
+    title: TABLE_OF_TABLES.at(language),
     target: figure.where(kind: table),
     indent: auto,
   )
+
+  pagebreak(weak: true)
+
+  // Table of tables
+  outline(
+    title: TABLE_OF_CODE.at(language),
+    target: figure.where(kind: raw),  // kind ist raw, since codelst wraps around it (see docs of codelst)
+    indent: auto,
+  )
+
+  pagebreak(weak: true)
+
+  // Table of equations
+  heading(TABLE_OF_EQUATIONS.at(language))
+  context {
+    for (_, (label, caption)) in custom-equation.outlined-equations.final() {
+      // Must be the same formatting as level 1 outlines (figures)
+      link(label, {
+        box(width: 1fr, {
+          ref(label)
+        })
+        box(width: 3fr, {
+          caption
+        })
+        let page = counter(page).at(label).first()
+        [#page]
+      })
+      
+      linebreak()
+    }
+  }
 
   pagebreak(weak: true)
 
@@ -423,15 +462,6 @@
   if (show-acronyms and acronyms != none and acronyms.len() > 0) {
     print-acronyms(language, acronym-spacing)
   }
-
-  pagebreak(weak: true)
-
-  // Table of tables
-  outline(
-    title: heading(TABLE_OF_CODE.at(language), outlined: true),
-    target: figure.where(kind: raw),  // kind ist raw, since codelst wraps around it (see docs of codelst)
-    indent: auto,
-  )
 
   pagebreak(weak: true) // this is needed so the footer display the correct page number (else 0 or n would be displayed)
 
@@ -457,6 +487,8 @@
     counter(figure.where(kind: image)).update(0)
     counter(figure.where(kind: raw)).update(0)
     counter(figure.where(kind: table)).update(0)
+    counter(math.equation).update(0)
+    
     context{ 
       v(2 * page-grid) 
         text(
@@ -476,8 +508,7 @@
 
   body
 
-
-  // ========== APPENDIX ========================================
+  // ========== APPENDIX =======================================
 
   in-body.update(false)
   set heading(numbering: "A.1")
@@ -508,3 +539,6 @@
     appendix
   }
 }
+
+// Eqation command for main.typ
+#let equation = custom-equation.equation

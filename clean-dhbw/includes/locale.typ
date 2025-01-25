@@ -133,6 +133,11 @@
   "en": "List of Code",
 )
 
+#let TABLE_OF_EQUATIONS = (
+  "de": "Formelverzeichnis",
+  "en": "List of equations",
+)
+
 #let ABSTRACT = (
   "de": "Zusammenfassung",
   "en": "Abstract",
@@ -156,4 +161,14 @@
 #let APPENDIX = (
   "de": "Anhang",
   "en": "Appendix",
+)
+
+#let EQUATION = (
+  "de": "Gleichung",
+  "en": "Equation",
+)
+
+#let CODE = (
+  "de": "Code",
+  "en": "Code",
 )
