@@ -1,5 +1,6 @@
 #import "locale.typ": ACRONYMS
 #import "shared-lib.typ": display, display-link, is-in-dict
+#import "custom-outline-entry-formatting.typ" : *
 
 #let prefix = "acronym-state-"
 #let acros = state("acronyms", none)
@@ -97,7 +98,7 @@
   acr(acronym, plural: true, link: link)
 }
 
-#let print-acronyms(language, acronym-spacing) = {
+#let print-acronyms(language, font) = {
   heading(level: 1, outlined: true)[#ACRONYMS.at(language)]
 
   context {
@@ -116,11 +117,14 @@
     let acr-list = acronym-keys.sorted()
 
     for acr in acr-list {
-      grid(
-        columns: (max-width + 0.5em, auto),
-        gutter: acronym-spacing,
-        [*#acr#label("acronyms-" + acr)*], [#acrl(acr, link: false)],
+      set text(font: font)
+      custom-outline-entry-formatting(
+        location: none,
+        front: [*#acr#label("acronyms-" + acr)*],
+        mid: [#acrl(acr, link: false)],
+        front-max-width: max-width
       )
+      linebreak()
     }
   }
 }

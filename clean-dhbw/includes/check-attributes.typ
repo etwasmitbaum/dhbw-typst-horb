@@ -10,7 +10,6 @@
   show-table-of-contents,
   show-acronyms,
   show-abstract,
-  acronym-spacing,
   glossary-spacing,
   abstract,
   appendix,
@@ -80,7 +79,6 @@
   }
 
   let length-attributes = (
-    acronym-spacing: acronym-spacing,
     glossary-spacing: glossary-spacing,
   )
 

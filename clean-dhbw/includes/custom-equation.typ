@@ -1,6 +1,6 @@
 #import "locale.typ": EQUATION
 
-// ---- Custom figure for equations ----
+// ---- Custom wrapper for equations ----
 #let outlined-equations = state("outlined-equations-key", (:))
 
 #let equation(body, caption: none, label: none) = {

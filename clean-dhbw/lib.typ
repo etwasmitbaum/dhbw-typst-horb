@@ -8,6 +8,7 @@
 #import "includes/declaration-of-authorship.typ": *
 #import "includes/check-attributes.typ": *
 #import "includes/custom-equation.typ"
+#import "includes/custom-outline-entry-formatting.typ" : *
 
 // Workaround for the lack of an `std` scope.
 #let std-bibliography = bibliography
@@ -24,7 +25,6 @@
   show-table-of-contents: true,
   show-acronyms: true,
   show-abstract: true,
-  acronym-spacing: 5em,
   glossary-spacing: 1.5em,
   outline-number-title-spacing: 1em,
   abstract: none,
@@ -64,7 +64,6 @@
     show-table-of-contents,
     show-acronyms,
     show-abstract,
-    acronym-spacing,
     glossary-spacing,
     abstract,
     appendix,
@@ -321,40 +320,35 @@
     else if (level1.element.func() == figure) {
       set text(font: heading-font, size: body-size)
       
-        let fig = level1.element
-        let figNumbering = fig.numbering
-        let number = if figNumbering != none {
-          let headNumber = counter(heading).at(fig.location())
-          let figNumber = fig.counter.at(fig.location())
-          
+      let fig = level1.element
+      let figNumbering = fig.numbering
+      let number = if figNumbering != none {
+        let headNumber = counter(heading).at(fig.location())
+        let figNumber = fig.counter.at(fig.location())
+        
+        context {
+          // Save the current heading counter for later use
+          let counterBefore = counter(heading).get()
+          // Update the heading counter to the headNumber of the current figure
+          counter(heading).update(headNumber.first())
           context {
-            // Save the current heading counter for later use
-            let counterBefore = counter(heading).get()
-            // Update the heading counter to the headNumber of the current figure
-            counter(heading).update(headNumber.first())
-            context {
-              // With the updated heading counter, call the numbering function of the   figure to generate the correct number
-              figNumbering(..figNumber)
-            }
-            // Reset counter to stored value
-            counter(heading).update(..counterBefore)
+            // With the updated heading counter, call the numbering function of the   figure to generate the correct number
+            figNumbering(..figNumber)
           }
+          // Reset counter to stored value
+          counter(heading).update(..counterBefore)
         }
+      }
 
-        link(level1.element.location(), {
-          box(width: 1fr, {
-            fig.supplement + " "
-            number
-          })
-          box(width: 3fr, {
-            fig.caption.body
-          })
-          level1.page
-        }
+      custom-outline-entry-formatting(
+        location: level1.element.location(), 
+        front: fig.supplement + " " + number,
+        mid: fig.caption.body,
+        back: level1.page
       )
     }
 
-    // Default outline
+    // Fallback: Default outline
     else {
       level1
     }
@@ -415,7 +409,6 @@
   outline(
     title: TABLE_OF_FIGURES.at(language),
     target: figure.where(kind: image),
-    indent: auto,
   )
 
   pagebreak(weak: true)
@@ -424,7 +417,6 @@
   outline(
     title: TABLE_OF_TABLES.at(language),
     target: figure.where(kind: table),
-    indent: auto,
   )
 
   pagebreak(weak: true)
@@ -433,7 +425,6 @@
   outline(
     title: TABLE_OF_CODE.at(language),
     target: figure.where(kind: raw),  // kind ist raw, since codelst wraps around it (see docs of codelst)
-    indent: auto,
   )
 
   pagebreak(weak: true)
@@ -443,18 +434,15 @@
   context {
     set text(font: heading-font, size: body-size)
     for (_, (label, caption)) in custom-equation.outlined-equations.final() {
-      // Must be the same formatting as level 1 outlines (figures)
-      link(label, {
-        box(width: 1fr, {
-          ref(label)
-        })
-        box(width: 3fr, {
-          caption
-        })
-        let page = counter(page).at(label).first()
-        [#page]
-      })
-      
+
+      let page = counter(page).at(label).first()
+
+      context custom-outline-entry-formatting(
+        location: label,
+        front: ref(label),
+        mid: caption,
+        back: page
+      )
       linebreak()
     }
   }
@@ -463,7 +451,7 @@
 
   // Acronym
   if (show-acronyms and acronyms != none and acronyms.len() > 0) {
-    print-acronyms(language, acronym-spacing)
+    print-acronyms(language, heading-font)  // Should be same font as other oulines
   }
 
   pagebreak(weak: true) // this is needed so the footer display the correct page number (else 0 or n would be displayed)
