@@ -243,6 +243,7 @@
   show heading: set text(weight: "bold", font: heading-font)
   show heading.where(level: 1): it => {v(2 * page-grid) + text(size: 2 * page-grid, it) + v(0.8em)}
   show outline: set heading(outlined: true)
+
 // ========== LEGAL BACKMATTER ========================================
 
   // ---------- Confidentiality Statement ---------------------------------------
@@ -284,6 +285,7 @@
     text(abstract)
 
     if (second-language-for-abstract != none and abstract-second-language != none)  {
+      pagebreak(weak: true)
       heading(level: 1, numbering: none, outlined: false, ABSTRACT.at(second-language-for-abstract))
       text(abstract-second-language)
     }
@@ -439,6 +441,7 @@
   // Table of equations
   heading(TABLE_OF_EQUATIONS.at(language))
   context {
+    set text(font: heading-font, size: body-size)
     for (_, (label, caption)) in custom-equation.outlined-equations.final() {
       // Must be the same formatting as level 1 outlines (figures)
       link(label, {
