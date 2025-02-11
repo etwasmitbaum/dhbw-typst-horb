@@ -104,6 +104,9 @@
   init-acronyms(acronyms)
   init-glossary(glossary)
 
+  // Change the citation style
+  set cite(style: "alphanumeric")
+
   // customize look of figure
   set figure.caption(separator: [ --- ], position: bottom)
   // change "listing" to "code"
