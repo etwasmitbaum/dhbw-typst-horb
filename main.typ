@@ -107,6 +107,7 @@ Abbildungen und Tabellen (mit entsprechenden Beschriftungen) werden wie folgt er
 === Abbildungen
 
 #figure(caption: "Eine Abbildung", image(width: 4cm, "assets/ts.svg"))
+#figure(caption: "Eine Abbildung", image(width: 4cm, "assets/ts.svg"))
 
 === Tabellen
 
@@ -254,4 +255,5 @@ In @mitternachtsformel ist die Mitternachtsformel zu sehen.
 )
 
 == Bilder
+#figure(caption: "Eine Abbildung", image(width: 4cm, "assets/ts.svg"))
 #figure(caption: "Eine Abbildung", image(width: 4cm, "assets/ts.svg"))
