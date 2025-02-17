@@ -11,6 +11,7 @@
 #import "includes/check-attributes.typ": *
 #import "includes/custom-equation.typ"
 #import "includes/custom-outline-entry-formatting.typ": *
+#import "includes/ToDo.typ": *
 
 // Workaround for the lack of an `std` scope.
 #let std-bibliography = bibliography
@@ -555,3 +556,4 @@
 
 // Eqation command for main.typ
 #let equation = custom-equation.equation
+#let todo = todo
