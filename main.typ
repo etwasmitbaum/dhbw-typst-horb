@@ -46,6 +46,7 @@
 = Einleitung
 
 #todo("Hier kann man ein ToDo nutzen") \
+Dieses Projekt wurde mit @Maedje2022 erstellt. \
 #lorem(100)
 
 #lorem(80)
