@@ -41,12 +41,14 @@
   // for more options check the package documentation (https://typst.app/universe/package/clean-dhbw)
 )
 
+#cite(<Madje_Typst>, form: none)
+
 // Edit this content to your liking
 
 = Einleitung
 
 #todo("Hier kann man ein ToDo nutzen") \
-Dieses Projekt wurde mit @Maedje2022 erstellt. \
+Dieses Projekt wurde mit @Madje_Typst erstellt. \
 #lorem(100)
 
 #lorem(80)
