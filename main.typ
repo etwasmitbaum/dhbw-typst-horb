@@ -7,11 +7,17 @@
 #show: clean-dhbw.with(
   title: "Mustertitel",
   authors: (
-    (name: "Max Mustermann", student-id: "7654321", course: "TINF22B2", course-of-studies: "Elektrotechnik", specialization: "Automation",
-    work-weeks: "KW XX - KW XX",
-    company: (
-      (name: "ABC GmbH", post-code: "76131", city: "Karlsruhe")
-    ),),
+    (
+      name: "Max Mustermann",
+      student-id: "7654321",
+      course: "TINF22B2",
+      course-of-studies: "Elektrotechnik",
+      specialization: "Automation",
+      work-weeks: "KW XX - KW XX",
+      company: (
+        (name: "ABC GmbH", post-code: "76131", city: "Karlsruhe")
+      ),
+    ),
     // (name: "Juan Pérez", student-id: "1234567", course: "TIM21", course-of-studies: "Mobile Computer Science", company: (
     //   (name: "ABC S.L.", post-code: "08005", city: "Barcelona", country: "Spain")
     // )),
@@ -51,28 +57,31 @@ Im folgenden werden einige nützliche Elemente und Funktionen zum Erstellen von 
 
 == Mathe
 Eine Gleichung mit Caption einfügen:
-#equation(caption: "Meine Gleichung 1", label: <gleichung1>,
-  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
-)
+#equation(caption: "Meine Gleichung 1", label: <gleichung1>, $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $)
 
 Ohne Caption kann die Gleichung direkt verwendet werden:
-$ 7.32 beta +
-  (i=0)^nabla Q_i / 2 + 1/2 $
+$
+  7.32 beta +
+  (i=0)^nabla Q_i / 2 + 1 / 2
+$
 
 Die Gleichung kann auch im Formelverzeichnis auftauchen und ein Label erhalten, siehe:
-#equation(caption: "Meine Gleichung 4", label: <meineTolleGleichung>,
-  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+#equation(
+  caption: "Meine Gleichung 4",
+  label: <meineTolleGleichung>,
+  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $,
 )
 
 Ohne Caption und mit Label geht auch:
-#equation(label: <meineTolleGleichung2>,
-  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+#equation(
+  label: <meineTolleGleichung2>,
+  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $,
 )
 #equation($ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $)
 
 == Abkürzungen
 
-Verwende die `acr`-Funktion und deren Geschwister `acrpl`, `acrs` und `acrspl`, um Abkürzungen aus dem Abkürzungsverzeichnis einzufügen. Beispiele dafür sind: 
+Verwende die `acr`-Funktion und deren Geschwister `acrpl`, `acrs` und `acrspl`, um Abkürzungen aus dem Abkürzungsverzeichnis einzufügen. Beispiele dafür sind:
 
 - #acr("HTTP") – `acr`: Singular mit Erläuterung
 - #acrpl("API") – `acrpl`: Plural mit Erläuterung
@@ -199,13 +208,13 @@ Tabellen, Abbildungen und andere Elemente können mit einem Label in spitzen Kla
 #equation(
   caption: "Meine Gleichung",
   label: <mitternachtsformel>,
-  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $,
 )
 
 #equation(
   caption: "Meine Gleichung",
   label: <gleichungUnten2>,
-  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $,
 )
 
 $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
@@ -214,7 +223,7 @@ $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
 #equation(
   caption: "Meine Gleichung",
   label: <gleichungUnten5>,
-  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $
+  $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $,
 )
 
 In @mitternachtsformel ist die Mitternachtsformel zu sehen.

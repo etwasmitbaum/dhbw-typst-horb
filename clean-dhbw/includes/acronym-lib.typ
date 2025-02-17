@@ -1,6 +1,6 @@
 #import "locale.typ": ACRONYMS
 #import "shared-lib.typ": display, display-link, is-in-dict
-#import "custom-outline-entry-formatting.typ" : *
+#import "custom-outline-entry-formatting.typ": *
 
 #let prefix = "acronym-state-"
 #let acros = state("acronyms", none)
@@ -37,7 +37,11 @@
         }
       } else if type(defs) == "array" {
         if defs.len() == 0 {
-          panic("No definitions found for acronym " + acr + ". Make sure it is defined in the dictionary passed to #init-acronyms(dict)")
+          panic(
+            "No definitions found for acronym "
+              + acr
+              + ". Make sure it is defined in the dictionary passed to #init-acronyms(dict)",
+          )
         }
         if plural {
           if defs.len() == 1 {
@@ -122,7 +126,7 @@
         location: none,
         front: [*#acr#label("acronyms-" + acr)*],
         mid: [#acrl(acr, link: false)],
-        front-max-width: max-width
+        front-max-width: max-width,
       )
       linebreak()
     }

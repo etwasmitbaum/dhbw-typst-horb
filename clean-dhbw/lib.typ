@@ -1,3 +1,4 @@
+
 // LTeX: enabled=false
 #import "@preview/codelst:2.0.2": *
 #import "@preview/hydra:0.5.1": hydra
@@ -9,7 +10,7 @@
 #import "includes/declaration-of-authorship.typ": *
 #import "includes/check-attributes.typ": *
 #import "includes/custom-equation.typ"
-#import "includes/custom-outline-entry-formatting.typ" : *
+#import "includes/custom-outline-entry-formatting.typ": *
 
 // Workaround for the lack of an `std` scope.
 #let std-bibliography = bibliography
@@ -96,15 +97,15 @@
   let h2-size = 16pt
   let h3-size = 11pt
   let h4-size = 11pt
-  let page-grid = 16pt  // vertical spacing on all pages
+  let page-grid = 16pt // vertical spacing on all pages
 
-  
+
   // ---------- Basic Document Settings ---------------------------------------
 
   set document(title: title, author: authors.map(author => author.name))
   let many-authors = authors.len() > 3
-  let in-frontmatter = state("in-frontmatter", true)    // to control page number format in frontmatter
-  let in-body = state("in-body", true)                 // to control heading formatting in/outside of body
+  let in-frontmatter = state("in-frontmatter", true) // to control page number format in frontmatter
+  let in-body = state("in-body", true) // to control heading formatting in/outside of body
 
   init-acronyms(acronyms)
   init-glossary(glossary)
@@ -118,15 +119,17 @@
   show figure.where(kind: raw): set figure(supplement: CODE.at(language))
 
   // Figure number will start with chapter number
-  set figure(numbering: (..num) => {
+  set figure(
+    numbering: (..num) => {
       numbering("1.1", counter(heading).get().first(), num.pos().first())
-    }
+    },
   )
 
   // math numbering
-  set math.equation(numbering: (..num) => {
+  set math.equation(
+    numbering: (..num) => {
       numbering("(1.1)", counter(heading).get().first(), num.pos().first())
-    }
+    },
   )
 
   // set link style for links that are not acronyms
@@ -140,17 +143,17 @@
   } else {
     ()
   }
-// Make all Links black
-//  show link: it => {
-//    // When calling link with a location it errors because str(it.dest) expects different types
-//    if type(it.dest) != location {
-//      if (str(it.dest) not in (acronym-keys + glossary-keys + ignored-link-label-keys-for-highlighting)) {
-//        text(fill: blue, it)
-//      } 
-//    } else {
-//      it
-//    }
-//  }
+  // Make all Links black
+  //  show link: it => {
+  //    // When calling link with a location it errors because str(it.dest) expects different types
+  //    if type(it.dest) != location {
+  //      if (str(it.dest) not in (acronym-keys + glossary-keys + ignored-link-label-keys-for-highlighting)) {
+  //        text(fill: blue, it)
+  //      }
+  //    } else {
+  //      it
+  //    }
+  //  }
 
   // ========== TITLEPAGE ========================================
 
@@ -178,80 +181,86 @@
       page-grid,
     )
   }
-  counter(page).update(1)  
+  counter(page).update(1)
 
   // ---------- Page Setup ---------------------------------------
 
   // adapt body text layout to basic measures
   set text(
-    font: body-font, 
-    lang: language, 
-    size: body-size - 0.5pt,      // 0.5pt adjustment because of large x-hight
-    top-edge: 0.75 * body-size, 
+    font: body-font,
+    lang: language,
+    size: body-size - 0.5pt, // 0.5pt adjustment because of large x-hight
+    top-edge: 0.75 * body-size,
     bottom-edge: -0.25 * body-size,
   )
   set par(
     spacing: page-grid,
-    leading: page-grid - body-size, 
+    leading: page-grid - body-size,
     justify: true,
   )
 
   set page(
     margin: (top: 2.5cm, bottom: 3.1cm, left: 2.5cm, right: 2.5cm),
     // Header
-    header:
-      grid(
-        columns: (1fr, 1fr, 1fr),
-        align: (left, center, right),
-        row-gutter: 0.5em,
-        box(logo-left, height: 2 * page-grid),
-        smallcaps(text(font: heading-font, size: body-size, 
+    header: grid(
+      columns: (1fr, 1fr, 1fr),
+      align: (left, center, right),
+      row-gutter: 0.5em,
+      box(logo-left, height: 2 * page-grid),
+      smallcaps(
+        text(
+          font: heading-font,
+          size: body-size,
           context {
             hydra(1, display: (_, it) => it.body, use-last: true, skip-starting: false)
           },
-        )),
-        box(logo-right, height: 2 * page-grid),
-        grid.cell(colspan: 3, line(length: 100%, stroke: 0.5pt)),
-      ),
-      header-ascent: page-grid,
-      // Footer
-      footer: // also use grid here, to make it easily extendable 
-        grid(
-          columns: (1fr),
-          align: (right),
-          row-gutter: 0.5em,
-    	    grid.cell(colspan: 1, line(length: 100%, stroke: 0.5pt)),
-          text(font: heading-font, size: body-size, 
-            number-type: "lining",
-            context {if in-frontmatter.get() {
-                counter(page).display("I")      // roman page numbers for the   frontmatter
-              } else {
-                counter(page).display("1")      // arabic page numbers for the  rest of the document
-              }
-            }
-          ),
         ),
-      footer-descent: page-grid,
-      numbering: (..number) => {
-        // Change numbering so it also shows correctly in the outline
-        if in-frontmatter.get() {
-          numbering("I", ..number)
-        } else {
-          numbering("1", ..number)
-        }
+      ),
+      box(logo-right, height: 2 * page-grid),
+      grid.cell(colspan: 3, line(length: 100%, stroke: 0.5pt)),
+    ),
+    header-ascent: page-grid,
+    // Footer
+    footer: // also use grid here, to make it easily extendable
+    grid(
+      columns: 1fr,
+      align: (right),
+      row-gutter: 0.5em,
+      grid.cell(colspan: 1, line(length: 100%, stroke: 0.5pt)),
+      text(
+        font: heading-font,
+        size: body-size,
+        number-type: "lining",
+        context {
+          if in-frontmatter.get() {
+            counter(page).display("I") // roman page numbers for the   frontmatter
+          } else {
+            counter(page).display("1") // arabic page numbers for the  rest of the document
+          }
+        },
+      ),
+    ),
+    footer-descent: page-grid,
+    numbering: (..number) => {
+      // Change numbering so it also shows correctly in the outline
+      if in-frontmatter.get() {
+        numbering("I", ..number)
+      } else {
+        numbering("1", ..number)
       }
+    },
   )
 
 
   // ========== FRONTMATTER ========================================
-  
+
   // ---------- Heading Format (Part I) ---------------------------------------
 
   show heading: set text(weight: "bold", font: heading-font)
-  show heading.where(level: 1): it => {v(2 * page-grid) + text(size: 2 * page-grid, it) + v(0.8em)}
+  show heading.where(level: 1): it => { v(2 * page-grid) + text(size: 2 * page-grid, it) + v(0.8em) }
   show outline: set heading(outlined: true)
 
-// ========== LEGAL BACKMATTER ========================================
+  // ========== LEGAL BACKMATTER ========================================
 
   // ---------- Confidentiality Statement ---------------------------------------
 
@@ -291,12 +300,12 @@
     heading(level: 1, numbering: none, outlined: false, ABSTRACT.at(language))
     text(abstract)
 
-    if (second-language-for-abstract != none and abstract-second-language != none)  {
+    if (second-language-for-abstract != none and abstract-second-language != none) {
       pagebreak(weak: true)
       heading(level: 1, numbering: none, outlined: false, ABSTRACT.at(second-language-for-abstract))
       text(abstract-second-language)
     }
-    
+
     pagebreak()
   }
 
@@ -308,7 +317,8 @@
     if (level1.element.func() == heading) {
       v(page-grid, weak: true)
       set text(font: heading-font, weight: "semibold", size: body-size)
-      link(level1.element.location(),
+      link(
+        level1.element.location(),
         {
           let head = level1.element
           let number = if head.numbering != none {
@@ -320,20 +330,18 @@
 
           box(width: 1fr)
           text(weight: "semibold", level1.page)
-        }
+        },
       )
-    }
-
-    // Figure types are list of tables etc. So there level 1 look is different
+    } // Figure types are list of tables etc. So there level 1 look is different
     else if (level1.element.func() == figure) {
       set text(font: heading-font, size: body-size)
-      
+
       let fig = level1.element
       let figNumbering = fig.numbering
       let number = if figNumbering != none {
         let headNumber = counter(heading).at(fig.location())
         let figNumber = fig.counter.at(fig.location())
-        
+
         context {
           // Save the current heading counter for later use
           let counterBefore = counter(heading).get()
@@ -349,14 +357,12 @@
       }
 
       custom-outline-entry-formatting(
-        location: level1.element.location(), 
+        location: level1.element.location(),
         front: fig.supplement + " " + number,
         mid: fig.caption.body,
-        back: level1.page
+        back: level1.page,
       )
-    }
-
-    // Fallback: Default outline
+    } // Fallback: Default outline
     else {
       level1
     }
@@ -365,41 +371,43 @@
   // other TOC entries in regular with adapted filling
   show outline.entry.where(level: 2): level2 => {
     set text(font: heading-font, size: body-size)
-    link(level2.element.location(),
+    link(
+      level2.element.location(),
       {
         let head = level2.element
         let number = if head.numbering != none {
-            numbering(head.numbering, ..counter(heading).at(head.location()))
-            h(outline-number-title-spacing)
-          }
-        h(outline-number-title-spacing)  // must be the same as the space of level 1
+          numbering(head.numbering, ..counter(heading).at(head.location()))
+          h(outline-number-title-spacing)
+        }
+        h(outline-number-title-spacing) // must be the same as the space of level 1
         number
         head.body
         h(1em)
-        box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt) 
+        box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt)
         h(1em)
         level2.page
-      }
+      },
     )
   }
 
   show outline.entry.where(level: 3): level3 => {
     set text(font: heading-font, size: body-size)
-    link(level3.element.location(),
+    link(
+      level3.element.location(),
       {
         let head = level3.element
         let number = if head.numbering != none {
-            numbering(head.numbering, ..counter(heading).at(head.location()))
-            h(1em)
-          }
-        h(outline-number-title-spacing * 2)  // must be the same as the space of level 1 + level 2
+          numbering(head.numbering, ..counter(heading).at(head.location()))
+          h(1em)
+        }
+        h(outline-number-title-spacing * 2) // must be the same as the space of level 1 + level 2
         number
         head.body
         h(1em)
-        box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt) 
+        box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt)
         h(1em)
         level3.page
-      }
+      },
     )
   }
 
@@ -419,9 +427,9 @@
       title: TABLE_OF_FIGURES.at(language),
       target: figure.where(kind: image),
     )
-      pagebreak(weak: true)
+    pagebreak(weak: true)
   }
-  
+
   // Table of tables
   if show-table-of-tables {
     outline(
@@ -432,12 +440,11 @@
   }
 
 
-
   // Table of code
   if show-table-of-code {
     outline(
       title: TABLE_OF_CODE.at(language),
-      target: figure.where(kind: raw),  // kind ist raw, since codelst wraps around it (see docs of codelst)
+      target: figure.where(kind: raw), // kind ist raw, since codelst wraps around it (see docs of codelst)
     )
     pagebreak(weak: true)
   }
@@ -449,14 +456,13 @@
     context {
       set text(font: heading-font, size: body-size)
       for (_, (label, caption)) in custom-equation.outlined-equations.final() {
-
         let page = counter(page).at(label).first()
 
         context custom-outline-entry-formatting(
           location: label,
           front: ref(label),
           mid: caption,
-          back: page
+          back: page,
         )
         linebreak()
       }
@@ -467,17 +473,17 @@
 
   // Acronym
   if (show-acronyms and acronyms != none and acronyms.len() > 0) {
-    print-acronyms(language, heading-font)  // Should be same font as other oulines
+    print-acronyms(language, heading-font) // Should be same font as other oulines
   }
 
   pagebreak(weak: true) // this is needed so the footer display the correct page number (else 0 or n would be displayed)
 
-  in-frontmatter.update(false)  // end of frontmatter
-  counter(page).update(1)       // so the first chapter starts at page 1 (now in arabic numbers)
+  in-frontmatter.update(false) // end of frontmatter
+  counter(page).update(1) // so the first chapter starts at page 1 (now in arabic numbers)
 
   // ========== DOCUMENT BODY ========================================
 
- // ---------- Heading Format (Part II: H1-H4) ---------------------------------------
+  // ---------- Heading Format (Part II: H1-H4) ---------------------------------------
 
   set heading(numbering: "1.1.1")
 
@@ -495,23 +501,23 @@
     counter(figure.where(kind: raw)).update(0)
     counter(figure.where(kind: table)).update(0)
     counter(math.equation).update(0)
-    
-    context{ 
-      v(2 * page-grid) 
-        text(
-          size: 2 * page-grid,
-          counter(heading).display() + h(0.5em) + it.body,
-          top-edge: 0.5em,
-          bottom-edge: -0.5em // move text further down
-          )
+
+    context {
+      v(2 * page-grid)
+      text(
+        size: 2 * page-grid,
+        counter(heading).display() + h(0.5em) + it.body,
+        top-edge: 0.5em,
+        bottom-edge: -0.5em, // move text further down
+      )
     }
   }
 
-  show heading.where(level: 2): it => {v(16pt) + text(size: h2-size, it)}
-  show heading.where(level: 3): it => {v(16pt) + text(size: h3-size, it)}
-  show heading.where(level: 4): it => {v(16pt) + smallcaps(text(size: h4-size, weight: "semibold", it.body))}
+  show heading.where(level: 2): it => { v(16pt) + text(size: h2-size, it) }
+  show heading.where(level: 3): it => { v(16pt) + text(size: h3-size, it) }
+  show heading.where(level: 4): it => { v(16pt) + smallcaps(text(size: h4-size, weight: "semibold", it.body)) }
 
- // ---------- Body Text ---------------------------------------
+  // ---------- Body Text ---------------------------------------
 
   body
 
@@ -540,7 +546,7 @@
 
   // ---------- Appendix (other contents) ---------------------------------------
 
-  if (appendix != none) {       
+  if (appendix != none) {
     // the user has to provide heading(s)
     heading(level: 1)[#APPENDIX.at(language)]
     appendix
