@@ -1,3 +1,4 @@
+// LTeX: enabled=false
 #import "@preview/codelst:2.0.2": *
 #import "@preview/hydra:0.5.1": hydra
 #import "includes/acronym-lib.typ": init-acronyms, print-acronyms, acr, acrpl, acrs, acrspl, acrl, acrlpl, acrf, acrfpl
@@ -23,6 +24,10 @@
   show-confidentiality-statement: true,
   show-declaration-of-authorship: true,
   show-table-of-contents: true,
+  show-table-of-images: true,
+  show-table-of-tables: true,
+  show-table-of-code: true,
+  show-table-of-equations: true,
   show-acronyms: true,
   show-abstract: true,
   glossary-spacing: 1.5em,
@@ -409,48 +414,56 @@
   pagebreak(weak: true)
 
   // Table of figures
-  outline(
-    title: TABLE_OF_FIGURES.at(language),
-    target: figure.where(kind: image),
-  )
-
-  pagebreak(weak: true)
-
+  if show-table-of-images {
+    outline(
+      title: TABLE_OF_FIGURES.at(language),
+      target: figure.where(kind: image),
+    )
+      pagebreak(weak: true)
+  }
+  
   // Table of tables
-  outline(
-    title: TABLE_OF_TABLES.at(language),
-    target: figure.where(kind: table),
-  )
-
-  pagebreak(weak: true)
-
-  // Table of tables
-  outline(
-    title: TABLE_OF_CODE.at(language),
-    target: figure.where(kind: raw),  // kind ist raw, since codelst wraps around it (see docs of codelst)
-  )
-
-  pagebreak(weak: true)
-
-  // Table of equations
-  heading(TABLE_OF_EQUATIONS.at(language))
-  context {
-    set text(font: heading-font, size: body-size)
-    for (_, (label, caption)) in custom-equation.outlined-equations.final() {
-
-      let page = counter(page).at(label).first()
-
-      context custom-outline-entry-formatting(
-        location: label,
-        front: ref(label),
-        mid: caption,
-        back: page
-      )
-      linebreak()
-    }
+  if show-table-of-tables {
+    outline(
+      title: TABLE_OF_TABLES.at(language),
+      target: figure.where(kind: table),
+    )
+    pagebreak(weak: true)
   }
 
-  pagebreak(weak: true)
+
+
+  // Table of code
+  if show-table-of-code {
+    outline(
+      title: TABLE_OF_CODE.at(language),
+      target: figure.where(kind: raw),  // kind ist raw, since codelst wraps around it (see docs of codelst)
+    )
+    pagebreak(weak: true)
+  }
+
+
+  // Table of equations
+  if show-table-of-equations {
+    heading(TABLE_OF_EQUATIONS.at(language))
+    context {
+      set text(font: heading-font, size: body-size)
+      for (_, (label, caption)) in custom-equation.outlined-equations.final() {
+
+        let page = counter(page).at(label).first()
+
+        context custom-outline-entry-formatting(
+          location: label,
+          front: ref(label),
+          mid: caption,
+          back: page
+        )
+        linebreak()
+      }
+    }
+    pagebreak(weak: true)
+  }
+
 
   // Acronym
   if (show-acronyms and acronyms != none and acronyms.len() > 0) {

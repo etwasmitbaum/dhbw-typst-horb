@@ -1,3 +1,4 @@
+// LTeX: enabled=false
 // The formatting for custom outlines
 
 // Set vertical spacing is set by par(leading: value)
