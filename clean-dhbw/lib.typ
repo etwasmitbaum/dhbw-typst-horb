@@ -314,103 +314,93 @@
 
   // top-level TOC entries in bold without filling
   show outline.entry.where(level: 1): level1 => {
+    // set block heigt for all level1 entries to 1em, so equaitons and figures have the same default height
+    set block(height: 1em)
     // Modify the display of heading in the outline
     if (level1.element.func() == heading) {
-      v(page-grid, weak: true)
+      set block(above: page-grid)
       set text(font: heading-font, weight: "semibold", size: body-size)
       link(
         level1.element.location(),
         {
-          let head = level1.element
-          let number = if head.numbering != none {
-            numbering(head.numbering, ..counter(heading).at(head.location()))
-            h(outline-number-title-spacing)
+        level1.indented(
+          gap: outline-number-title-spacing,
+          level1.prefix(),
+          {
+            level1.body()
+            box(width: 1fr)
+            text(weight: "semibold", level1.page())
           }
-          number
-          head.body
-
-          box(width: 1fr)
-          text(weight: "semibold", level1.page)
+        )
         },
       )
     } // Figure types are list of tables etc. So there level 1 look is different
     else if (level1.element.func() == figure) {
       set text(font: heading-font, size: body-size)
 
-      let fig = level1.element
-      let figNumbering = fig.numbering
-      let number = if figNumbering != none {
-        let headNumber = counter(heading).at(fig.location())
-        let figNumber = fig.counter.at(fig.location())
-
-        context {
-          // Save the current heading counter for later use
-          let counterBefore = counter(heading).get()
-          // Update the heading counter to the headNumber of the current figure
-          counter(heading).update(headNumber.first())
-          context {
-            // With the updated heading counter, call the numbering function of the   figure to generate the correct number
-            figNumbering(..figNumber)
-          }
-          // Reset counter to stored value
-          counter(heading).update(..counterBefore)
+      context{
+        // if the counter is one, it must be the first element of its chapter, therefore insert a bit of space
+        // the same is used below for equations
+        let count = level1.element.counter.at(level1.element.location())
+        if count.first() == 1 {
+          v(1em)
         }
       }
-
-      custom-outline-entry-formatting(
-        location: level1.element.location(),
-        front: fig.supplement + " " + number,
-        mid: fig.caption.body,
-        back: level1.page,
+      
+      level1.indented(
+        [],
+        {
+          custom-outline-entry-formatting(
+            location: level1.element.location(),
+            front: level1.prefix(),
+            mid: level1.body(),
+            back: level1.page()
+          )
+        }
       )
-    } // Fallback: Default outline
+    
+    }
+    // Fallback: Default outline
     else {
       level1
     }
   }
+
 
   // other TOC entries in regular with adapted filling
   show outline.entry.where(level: 2): level2 => {
     set text(font: heading-font, size: body-size)
     link(
       level2.element.location(),
-      {
-        let head = level2.element
-        let number = if head.numbering != none {
-          numbering(head.numbering, ..counter(heading).at(head.location()))
-          h(outline-number-title-spacing)
+      level2.indented(
+        gap: outline-number-title-spacing,
+        level2.prefix(),
+        {
+          level2.body()
+          box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt)
+          level2.page()
         }
-        h(outline-number-title-spacing) // must be the same as the space of level 1
-        number
-        head.body
-        h(1em)
-        box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt)
-        h(1em)
-        level2.page
-      },
-    )
+      ))
   }
 
   show outline.entry.where(level: 3): level3 => {
     set text(font: heading-font, size: body-size)
     link(
       level3.element.location(),
-      {
-        let head = level3.element
-        let number = if head.numbering != none {
-          numbering(head.numbering, ..counter(heading).at(head.location()))
+      level3.indented(
+        gap: outline-number-title-spacing,
+        level3.prefix(),
+        {
+          level3.body()
           h(1em)
+          box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt)
+          h(1em)
+          level3.page()
         }
-        h(outline-number-title-spacing * 2) // must be the same as the space of level 1 + level 2
-        number
-        head.body
-        h(1em)
-        box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt)
-        h(1em)
-        level3.page
-      },
+      )
     )
   }
+
 
   if (show-table-of-contents) {
     outline(
@@ -459,13 +449,19 @@
       for (_, (label, caption)) in custom-equation.outlined-equations.final() {
         let page = counter(page).at(label).first()
 
+        // if the counter is one, it must be the first element of its chapter, therefore insert a bit of space
+        // the same is used above for figures etc
+        let count = counter(math.equation).at(label)
+        if count.first() == 1 {
+          v(0em)  // i dont know why it needs 0em, but this makes the spacing correct
+        }
+
         context custom-outline-entry-formatting(
           location: label,
           front: ref(label),
           mid: caption,
           back: page,
         )
-        linebreak()
       }
     }
     pagebreak(weak: true)
