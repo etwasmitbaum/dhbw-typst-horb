@@ -1,7 +1,7 @@
 
 // LTeX: enabled=false
 #import "@preview/codelst:2.0.2": *
-#import "@preview/hydra:0.5.1": hydra
+#import "@preview/hydra:0.6.0": hydra
 #import "includes/acronym-lib.typ": init-acronyms, print-acronyms, acr, acrpl, acrs, acrspl, acrl, acrlpl, acrf, acrfpl
 #import "includes/glossary-lib.typ": init-glossary, print-glossary, gls
 #import "includes/locale.typ": TABLE_OF_CONTENTS, APPENDIX, REFERENCES
