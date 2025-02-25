@@ -38,12 +38,14 @@
 
     v(1em)
 
-
     [
       #CONFIDENTIALITY_STATEMENT_SECTION_B.at(language) #companies #CONFIDENTIALITY_STATEMENT_SECTION_C.at(language) #authors-by-study.join(" | ") #CONFIDENTIALITY_STATEMENT_SECTION_D.at(language) #university #university-location #CONFIDENTIALITY_STATEMENT_SECTION_E.at(language) #CONFIDENTIALITY_STATEMENT_SECTION_F.at(language)
-      - #BULLET_POINT_ONE.at(language)
-      - #BULLET_POINT_TWO.at(language)
-      - #BULLET_POINT_THREE.at(language)
+      #list(
+        indent: 2em,
+        [#BULLET_POINT_ONE.at(language)],
+        [#BULLET_POINT_TWO.at(language)],
+        [#BULLET_POINT_THREE.at(language)],
+      )
       #CONFIDENTIALITY_STATEMENT_SECTION_G.at(language) #companies.
     ]
 
