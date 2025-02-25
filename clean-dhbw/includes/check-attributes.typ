@@ -8,6 +8,10 @@
   show-confidentiality-statement,
   show-declaration-of-authorship,
   show-table-of-contents,
+  show-table-of-images,
+  show-table-of-tables,
+  show-table-of-code,
+  show-table-of-equations,
   show-acronyms,
   show-abstract,
   glossary-spacing,
@@ -16,15 +20,15 @@
   acronyms,
   university,
   university-location,
+  university-short,
+  city,
   supervisor,
   date,
-  city,
   bibliography,
   bib-style,
+  math-numbering,
   logo-left,
   logo-right,
-  university-short,
-  math-numbering,
   ignored-link-label-keys-for-highlighting,
 ) = {
   if (title == none or title == "") {
@@ -38,6 +42,10 @@
     show-acronyms: show-acronyms,
     show-declaration-of-authorship: show-declaration-of-authorship,
     show-abstract: show-abstract,
+    show-table-of-images: show-table-of-images,
+    show-table-of-tables: show-table-of-tables,
+    show-table-of-code: show-table-of-code,
+    show-table-of-equations: show-table-of-equations
   )
 
   for (key, attribute) in boolean-attributes {

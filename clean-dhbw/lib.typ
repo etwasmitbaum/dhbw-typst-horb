@@ -69,6 +69,10 @@
     show-confidentiality-statement,
     show-declaration-of-authorship,
     show-table-of-contents,
+    show-table-of-images,
+    show-table-of-tables,
+    show-table-of-code,
+    show-table-of-equations,
     show-acronyms,
     show-abstract,
     glossary-spacing,
@@ -77,15 +81,15 @@
     acronyms,
     university,
     university-location,
+    university-short,
+    city,
     supervisor,
     date,
-    city,
     bibliography,
     bib-style,
+    math-numbering,
     logo-left,
     logo-right,
-    university-short,
-    math-numbering,
     ignored-link-label-keys-for-highlighting,
   )
 
@@ -323,22 +327,22 @@
       link(
         level1.element.location(),
         {
-        level1.indented(
-          gap: outline-number-title-spacing,
-          level1.prefix(),
-          {
-            level1.body()
-            box(width: 1fr)
-            text(weight: "semibold", level1.page())
-          }
-        )
+          level1.indented(
+            gap: outline-number-title-spacing,
+            level1.prefix(),
+            {
+              level1.body()
+              box(width: 1fr)
+              text(weight: "semibold", level1.page())
+            },
+          )
         },
       )
     } // Figure types are list of tables etc. So there level 1 look is different
     else if (level1.element.func() == figure) {
       set text(font: heading-font, size: body-size)
 
-      context{
+      context {
         // if the counter is one, it must be the first element of its chapter, therefore insert a bit of space
         // the same is used below for equations
         let count = level1.element.counter.at(level1.element.location())
@@ -346,7 +350,7 @@
           v(1em)
         }
       }
-      
+
       level1.indented(
         [],
         {
@@ -354,13 +358,11 @@
             location: level1.element.location(),
             front: level1.prefix(),
             mid: level1.body(),
-            back: level1.page()
+            back: level1.page(),
           )
-        }
+        },
       )
-    
-    }
-    // Fallback: Default outline
+    } // Fallback: Default outline
     else {
       level1
     }
@@ -379,8 +381,9 @@
           level2.body()
           box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt)
           level2.page()
-        }
-      ))
+        },
+      ),
+    )
   }
 
   show outline.entry.where(level: 3): level3 => {
@@ -396,8 +399,8 @@
           box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt)
           h(1em)
           level3.page()
-        }
-      )
+        },
+      ),
     )
   }
 
@@ -453,7 +456,7 @@
         // the same is used above for figures etc
         let count = counter(math.equation).at(label)
         if count.first() == 1 {
-          v(0em)  // i dont know why it needs 0em, but this makes the spacing correct
+          v(0em) // i dont know why it needs 0em, but this makes the spacing correct
         }
 
         context custom-outline-entry-formatting(
