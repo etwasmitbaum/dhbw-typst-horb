@@ -34,6 +34,8 @@
   show-abstract: true,
   glossary-spacing: 1.5em,
   outline-number-title-spacing: 1em,
+  outline-entry-height: 1.1em, // set the height of outline entries (lines) so they are all equal 1.1em is close to the default height
+  outline-new-chapter-spacing: 16pt, // set the space before the headings of a new chapter in the outline. Default is 16pt, should be equal to page-grid
   abstract: none,
   abstract-second-language: none,
   second-language-for-abstract: none,
@@ -318,11 +320,12 @@
 
   // top-level TOC entries in bold without filling
   show outline.entry.where(level: 1): level1 => {
-    // set block heigt for all level1 entries to 1em, so equaitons and figures have the same default height
-    set block(height: 1em)
+    // set block heigt for all level1 entries, so equaitons and figures have the same default height
+    set block(height: outline-entry-height)
+
     // Modify the display of heading in the outline
     if (level1.element.func() == heading) {
-      set block(above: page-grid)
+      set block(above: outline-new-chapter-spacing)
       set text(font: heading-font, weight: "semibold", size: body-size)
       link(
         level1.element.location(),
@@ -347,7 +350,7 @@
         // the same is used below for equations
         let count = level1.element.counter.at(level1.element.location())
         if count.first() == 1 {
-          v(1em)
+          v(outline-new-chapter-spacing, weak: true) // make it weak, so no unneeded space gets created
         }
       }
 
@@ -371,6 +374,9 @@
 
   // other TOC entries in regular with adapted filling
   show outline.entry.where(level: 2): level2 => {
+    // set block heigt for all level2 entries, so equaitons and figures have the same default height
+    set block(height: outline-entry-height)
+
     set text(font: heading-font, size: body-size)
     link(
       level2.element.location(),
@@ -387,6 +393,9 @@
   }
 
   show outline.entry.where(level: 3): level3 => {
+    // set block heigt for all level3 entries, so equaitons and figures have the same default height
+    set block(height: outline-entry-height)
+    
     set text(font: heading-font, size: body-size)
     link(
       level3.element.location(),
@@ -456,14 +465,14 @@
         // the same is used above for figures etc
         let count = counter(math.equation).at(label)
         if count.first() == 1 {
-          v(0em) // i dont know why it needs 0em, but this makes the spacing correct
+          v(outline-new-chapter-spacing, weak: true) // make it weak, so no unneeded space gets created
         }
-
         context custom-outline-entry-formatting(
           location: label,
           front: ref(label),
           mid: caption,
           back: page,
+          entry-height: outline-entry-height,
         )
       }
     }
@@ -473,7 +482,7 @@
 
   // Acronym
   if (show-acronyms and acronyms != none and acronyms.len() > 0) {
-    print-acronyms(language, heading-font) // Should be same font as other oulines
+    print-acronyms(language, heading-font, outline-entry-height) // Should be same font as other oulines
   }
 
   pagebreak(weak: true) // this is needed so the footer display the correct page number (else 0 or n would be displayed)

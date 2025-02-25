@@ -11,13 +11,14 @@
   back: none, // Content at the end, ex: page number "4"
   front-max-width: 1fr, // Maximum width of the front part
   spacing-after-front: 3em, // The space inserted after front-max-width. If front-max-width is a fraction, this has no effect
+  entry-height: 1em // the height of the single line entry
 ) = {
   // Add extra space when front-max-width is not a fraction
   if type(front-max-width) != fraction {
     front-max-width = front-max-width + 3em
   }
 
-  box(
+  box(height: entry-height,
     if location == none {
       // wrap box with extra height around to create spacing
         box([#front], width: front-max-width)
@@ -33,6 +34,4 @@
       }
 
   )
-      
-    
 }

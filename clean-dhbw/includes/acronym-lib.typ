@@ -101,7 +101,7 @@
   acr(acronym, plural: true, link: link)
 }
 
-#let print-acronyms(language, font) = {
+#let print-acronyms(language, font, entry-height) = {
   heading(level: 1, outlined: true)[#ACRONYMS.at(language)]
 
   context {
@@ -126,6 +126,7 @@
         front: [*#acr#label("acronyms-" + acr)*],
         mid: [#acrl(acr, link: false)],
         front-max-width: max-width,
+        entry-height: entry-height
       )
     }
   }
