@@ -26,10 +26,8 @@
   date,
   bibliography,
   bib-style,
-  math-numbering,
   logo-left,
   logo-right,
-  ignored-link-label-keys-for-highlighting,
 ) = {
   if (title == none or title == "") {
     panic("Title is missing. Specify a title in the 'title' attribute of the template.")
@@ -69,7 +67,6 @@
   let optional-string-attributes = (
     type-of-thesis: type-of-thesis,
     bib-style: bib-style,
-    math-numbering: math-numbering,
   )
 
   for (key, attribute) in optional-string-attributes {
@@ -203,7 +200,7 @@
   }
 
   let string-array-attributes = (
-    ignored-link-label-keys-for-highlighting: ignored-link-label-keys-for-highlighting,
+    :
   )
 
   for (key, attribute) in string-array-attributes {

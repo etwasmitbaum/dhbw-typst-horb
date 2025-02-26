@@ -16,48 +16,93 @@
 // Workaround for the lack of an `std` scope.
 #let std-bibliography = bibliography
 
+/// This function does provide a template in (unofficial) accordance to the DHBW Stuttgart guideline for a Thesis
 #let clean-dhbw(
-  title: none,
-  authors: (:),
-  language: none,
-  at-university: none,
+  /// The title of your document. -> str
+  title: str,
+  /// A list of dictionaries with the authors. Each Auther should have following elements:
+  /// name: Name of the author -> str \
+  /// student-id: Student-ID of the author -> str \
+  /// course: Course of the author -> str \
+  /// course-of-studies: -> str \
+  /// company: Dictionary containing name -> str, post-code -> str, city -> str, country -> str
+  /// -> dictionary
+  authors: dictionary,
+  /// The language in which this document is written. Currently supported are "de" and "en" -> str
+  language: str,
+  /// Define if the document is written for the university. Setting this true will hide the company and confidentiality statement -> bool
+  at-university: bool,
+  /// Show a red dot on the upper right corner of the title page. -> dictionary
   confidentiality-marker: (display: false),
-  type-of-thesis: none,
+  /// The type of the thesis, e.g. Bachelor Thesis or Paper -> str
+  type-of-thesis: str,
+  /// Display the confidentiality statement. This will be ignored if `at-university` is set to true -> bool
   show-confidentiality-statement: true,
+  /// Display declaration-of-authorship. -> bool
   show-declaration-of-authorship: true,
+  /// Display table of contents. -> bool
   show-table-of-contents: true,
+  /// Display table of figures (images) -> bool
   show-table-of-images: true,
+  /// Display table of tables -> bool
   show-table-of-tables: true,
+  /// Display table of code -> bool
   show-table-of-code: true,
+  /// Display table of equations -> bool
   show-table-of-equations: true,
+  /// Display all used acronyms -> bool
   show-acronyms: true,
+  /// Display the abstract -> bool
   show-abstract: true,
+  /// Spacing between the glossary term and its definition -> length
   glossary-spacing: 1.5em,
+  /// The spacing between the chapter number the the heading in an outline entry. -> length
   outline-number-title-spacing: 1em,
-  outline-entry-height: 1.1em, // set the height of outline entries (lines) so they are all equal 1.1em is close to the default height
-  outline-new-chapter-spacing: 16pt, // set the space before the headings of a new chapter in the outline. Default is 16pt, should be equal to page-grid
-  abstract: none,
+  /// The height of a outline entry (on single line) -> length
+  outline-entry-height: 1.1em,
+  /// The space above a new level 1 chapter in outlines, should be equa to page-grid -> length
+  outline-new-chapter-spacing: 16pt,
+  /// The abstract in the main language. -> content
+  abstract: content,
+  /// The abstarct in the second language, `second-language-for-abstract` must be set. -> content
   abstract-second-language: none,
+  /// The language for a second abstarct. See `language` for options -> str
   second-language-for-abstract: none,
+  /// The appendix -> content
   appendix: none,
+  /// Dictionary containing all acronyms -> dictionary
   acronyms: none,
+  /// The glossary dictionary, containing words and their description
   glossary: none,
+  /// Overwrite the default content of the confidentiality statement -> content
   confidentiality-statement-content: none,
+  /// Overwrite the default content of the declaration of authorship -> content
   declaration-of-authorship-content: none,
+  /// Overwrite the default content of the titlepage -> content
   titlepage-content: none,
+  /// Name the of the university -> str
   university: none,
+  /// Location of the university -> str
   university-location: none,
+  /// Shorthand for the university (eg. KIT), displayed for the university supervisor -> str
   university-short: none,
+  /// City of the author (only needed when at-university is true) -> str
   city: none,
+  /// Dictionary containing the name of the supervisor with the "university" or "company". One of the two should be provided -> str
   supervisor: (:),
-  date: none,
+  /// Datetime object to be displayed in the document -> datetime
+  date: datetime,
+  /// Date format to the be displayed. See Typst docs for mor information  -> str
   date-format: "[day].[month].[year]",
+  /// Bibliography object to be displayed
   bibliography: none,
+  /// Display Style of the bibliography, see Typst docs for mor information -> str
   bib-style: "ieee",
-  math-numbering: "(1)",
+  /// Logo on the right side in the header. Should be the company logo. If only one logo is specified it will be centered on the titlepage. -> content
   logo-left: image("img/general/firmenlogo.png"),
+  /// Logo on the left side in the header. Should be the University logo. If only one logo is specified it will be centered on the titlepage. -> content
   logo-right: image("img/general/dhbw.svg"),
-  ignored-link-label-keys-for-highlighting: (),
+  /// The main Body, the actually written document -> content
   body,
 ) = {
   // check required attributes
@@ -89,10 +134,8 @@
     date,
     bibliography,
     bib-style,
-    math-numbering,
     logo-left,
     logo-right,
-    ignored-link-label-keys-for-highlighting,
   )
 
   // ---------- Fonts & Related Measures ---------------------------------------
@@ -129,7 +172,7 @@
   set figure(
     numbering: (..num) => {
       if in-body.get() {
-      numbering("1.1", counter(heading).get().first(), num.pos().first())
+        numbering("1.1", counter(heading).get().first(), num.pos().first())
       } else {
         numbering("A.1", counter(heading).get().first(), num.pos().first())
       }
@@ -140,7 +183,7 @@
   set math.equation(
     numbering: (..num) => {
       if in-body.get() {
-      numbering("(1.1)", counter(heading).get().first(), num.pos().first())
+        numbering("(1.1)", counter(heading).get().first(), num.pos().first())
       } else {
         numbering("(A.1)", counter(heading).get().first(), num.pos().first())
       }
@@ -320,9 +363,9 @@
       pagebreak(weak: true)
       heading(level: 1, numbering: none, outlined: false, ABSTRACT.at(second-language-for-abstract))
 
-      set text(lang: second-language-for-abstract)  // change language for second abstract
+      set text(lang: second-language-for-abstract) // change language for second abstract
       text(abstract-second-language)
-      set text(lang: language)  // change language back to main
+      set text(lang: language) // change language back to main
     }
 
     pagebreak()
@@ -407,7 +450,7 @@
   show outline.entry.where(level: 3): level3 => {
     // set block heigt for all level3 entries, so equaitons and figures have the same default height
     set block(height: outline-entry-height)
-    
+
     set text(font: heading-font, size: body-size)
     link(
       level3.element.location(),
