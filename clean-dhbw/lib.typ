@@ -16,7 +16,7 @@
 // Workaround for the lack of an `std` scope.
 #let std-bibliography = bibliography
 
-/// This function does provide a template in (unofficial) accordance to the DHBW Stuttgart guideline for a Thesis
+/// This function does provide a template in (unofficial) accordance to the DHBW Stuttgart guideline for a Thesis.
 #let clean-dhbw(
   /// The title of your document. -> str
   title: str,
@@ -28,81 +28,81 @@
   /// company: Dictionary containing name -> str, post-code -> str, city -> str, country -> str
   /// -> dictionary
   authors: dictionary,
-  /// The language in which this document is written. Currently supported are "de" and "en" -> str
+  /// The language in which this document is written. Currently supported are "de" and "en". -> str
   language: str,
-  /// Define if the document is written for the university. Setting this true will hide the company and confidentiality statement -> bool
+  /// Define if the document is written for the university. Setting this true will hide the company and confidentiality statement. -> bool
   at-university: bool,
   /// Show a red dot on the upper right corner of the title page. -> dictionary
   confidentiality-marker: (display: false),
-  /// The type of the thesis, e.g. Bachelor Thesis or Paper -> str
+  /// The type of the thesis, e.g. Bachelor Thesis or Paper. -> str
   type-of-thesis: str,
-  /// Display the confidentiality statement. This will be ignored if `at-university` is set to true -> bool
+  /// Display the confidentiality statement. This will be ignored if `at-university` is set to true. -> bool
   show-confidentiality-statement: true,
   /// Display declaration-of-authorship. -> bool
   show-declaration-of-authorship: true,
   /// Display table of contents. -> bool
   show-table-of-contents: true,
-  /// Display table of figures (images) -> bool
+  /// Display table of figures (images). -> bool
   show-table-of-images: true,
-  /// Display table of tables -> bool
+  /// Display table of tables. -> bool
   show-table-of-tables: true,
-  /// Display table of code -> bool
+  /// Display table of code. -> bool
   show-table-of-code: true,
-  /// Display table of equations -> bool
+  /// Display table of equations. -> bool
   show-table-of-equations: true,
-  /// Display all used acronyms -> bool
+  /// Display all used acronyms. -> bool
   show-acronyms: true,
-  /// Display the abstract -> bool
+  /// Display the abstract. -> bool
   show-abstract: true,
-  /// Spacing between the glossary term and its definition -> length
+  /// Spacing between the glossary term and its definition. -> length
   glossary-spacing: 1.5em,
   /// The spacing between the chapter number the the heading in an outline entry. -> length
   outline-number-title-spacing: 1em,
-  /// The height of a outline entry (on single line) -> length
+  /// The height of a outline entry (on single line). -> length
   outline-entry-height: 1.1em,
-  /// The space above a new level 1 chapter in outlines, should be equa to page-grid -> length
+  /// The space above a new level 1 chapter in outlines, should be equa to page-grid. -> length
   outline-new-chapter-spacing: 16pt,
   /// The abstract in the main language. -> content
   abstract: content,
   /// The abstarct in the second language, `second-language-for-abstract` must be set. -> content
   abstract-second-language: none,
-  /// The language for a second abstarct. See `language` for options -> str
+  /// The language for a second abstarct. See `language` for options. -> str
   second-language-for-abstract: none,
-  /// The appendix -> content
+  /// The appendix. -> content
   appendix: none,
-  /// Dictionary containing all acronyms -> dictionary
+  /// Dictionary containing all acronyms. -> dictionary
   acronyms: none,
-  /// The glossary dictionary, containing words and their description
+  /// The glossary dictionary, containing words and their description.
   glossary: none,
-  /// Overwrite the default content of the confidentiality statement -> content
+  /// Overwrite the default content of the confidentiality statement. -> content
   confidentiality-statement-content: none,
-  /// Overwrite the default content of the declaration of authorship -> content
+  /// Overwrite the default content of the declaration of authorship. -> content
   declaration-of-authorship-content: none,
-  /// Overwrite the default content of the titlepage -> content
+  /// Overwrite the default content of the titlepage. -> content
   titlepage-content: none,
-  /// Name the of the university -> str
+  /// Name the of the university. -> str
   university: none,
-  /// Location of the university -> str
+  /// Location of the university. -> str
   university-location: none,
-  /// Shorthand for the university (eg. KIT), displayed for the university supervisor -> str
+  /// Shorthand for the university (eg. KIT), displayed for the university supervisor. -> str
   university-short: none,
-  /// City of the author (only needed when at-university is true) -> str
+  /// City of the author (only needed when at-university is true). -> str
   city: none,
-  /// Dictionary containing the name of the supervisor with the "university" or "company". One of the two should be provided -> str
+  /// Dictionary containing the name of the supervisor with the "university" or "company". One of the two should be provided. -> str
   supervisor: (:),
-  /// Datetime object to be displayed in the document -> datetime
+  /// Datetime object to be displayed in the document. -> datetime
   date: datetime,
-  /// Date format to the be displayed. See Typst docs for mor information  -> str
+  /// Date format to the be displayed. See Typst docs for mor information.  -> str
   date-format: "[day].[month].[year]",
-  /// Bibliography object to be displayed
+  /// Bibliography object to be displayed.
   bibliography: none,
-  /// Display Style of the bibliography, see Typst docs for mor information -> str
+  /// Display Style of the bibliography, see Typst docs for mor information. -> str
   bib-style: "ieee",
   /// Logo on the right side in the header. Should be the company logo. If only one logo is specified it will be centered on the titlepage. -> content
   logo-left: image("img/general/firmenlogo.png"),
   /// Logo on the left side in the header. Should be the University logo. If only one logo is specified it will be centered on the titlepage. -> content
   logo-right: image("img/general/dhbw.svg"),
-  /// The main Body, the actually written document -> content
+  /// The main Body, the actually written document. -> content
   body,
 ) = {
   // check required attributes
