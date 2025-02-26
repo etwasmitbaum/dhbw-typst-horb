@@ -110,6 +110,7 @@
   // ---------- Basic Document Settings ---------------------------------------
 
   set document(title: title, author: authors.map(author => author.name))
+  set text(lang: language)
   let many-authors = authors.len() > 3
   let in-frontmatter = state("in-frontmatter", true) // to control page number format in frontmatter
   let in-body = state("in-body", true) // to control heading formatting in/outside of body
@@ -128,14 +129,22 @@
   // Figure number will start with chapter number
   set figure(
     numbering: (..num) => {
+      if in-body.get() {
       numbering("1.1", counter(heading).get().first(), num.pos().first())
+      } else {
+        numbering("A.1", counter(heading).get().first(), num.pos().first())
+      }
     },
   )
 
   // math numbering
   set math.equation(
     numbering: (..num) => {
+      if in-body.get() {
       numbering("(1.1)", counter(heading).get().first(), num.pos().first())
+      } else {
+        numbering("(A.1)", counter(heading).get().first(), num.pos().first())
+      }
     },
   )
 
