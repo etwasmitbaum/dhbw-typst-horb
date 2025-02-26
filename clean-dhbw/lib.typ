@@ -110,7 +110,6 @@
   // ---------- Basic Document Settings ---------------------------------------
 
   set document(title: title, author: authors.map(author => author.name))
-  set text(lang: language)
   let many-authors = authors.len() > 3
   let in-frontmatter = state("in-frontmatter", true) // to control page number format in frontmatter
   let in-body = state("in-body", true) // to control heading formatting in/outside of body
@@ -172,6 +171,7 @@
   //  }
 
   // ========== TITLEPAGE ========================================
+  set text(lang: language) // set language for titlepage (which is called before page setup)
 
   if (titlepage-content != none) {
     titlepage-content
@@ -319,7 +319,10 @@
     if (second-language-for-abstract != none and abstract-second-language != none) {
       pagebreak(weak: true)
       heading(level: 1, numbering: none, outlined: false, ABSTRACT.at(second-language-for-abstract))
+
+      set text(lang: second-language-for-abstract)  // change language for second abstract
       text(abstract-second-language)
+      set text(lang: language)  // change language back to main
     }
 
     pagebreak()
