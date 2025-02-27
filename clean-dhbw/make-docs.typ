@@ -1,4 +1,6 @@
 #import "@preview/tidy:0.4.1"
+#import "includes/ToDo.typ"
+#import "includes/custom-equation.typ"
 
 #show outline.entry.where(level: 1): level1 => [
   #set text(weight: "bold", size: 1em)
@@ -22,18 +24,41 @@
   #v(-2em, weak: true)
 ]
 
+// Change the equation numbering for the preview. The chapter number is static, else "0" would be displayed
+#set math.equation(
+  numbering: (..num) => {
+    numbering("(1.1)", 2, num.pos().first())
+  },
+)
+
 = Public functions
+
+// clean-dhbw
 #let clean-dhbw-docs = tidy.parse-module(read("lib.typ"), name: "Clean DHWB")
 #tidy.show-module(clean-dhbw-docs, style: tidy.styles.default)
 
-#let custom-equation-docs = tidy.parse-module(read("includes/custom-equation.typ"), name: "Custom equations")
+// equations
+#let custom-equation-docs = tidy.parse-module(
+  read("includes/custom-equation.typ"),
+  name: "Custom equations",
+  scope: (custom-equation: custom-equation),
+  preamble: "#import custom-equation: *\n",
+)
 #tidy.show-module(custom-equation-docs, style: tidy.styles.default)
 
-#let todo-docs = tidy.parse-module(read("includes/todo.typ"), name: "ToDo")
+// ToDo
+#let todo-docs = tidy.parse-module(
+  read("includes/todo.typ"),
+  name: "ToDo",
+  scope: (ToDo: ToDo),
+  preamble: "#import ToDo: *\n",
+)
 #tidy.show-module(todo-docs, style: tidy.styles.default)
 
 #pagebreak()
 = Internal functions
+
+// custom outline entry
 #let custom-outline-entry-formatting-docs = tidy.parse-module(
   read("includes/custom-outline-entry-formatting.typ"),
   name: "Custom outline Entry",
