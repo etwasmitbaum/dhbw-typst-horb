@@ -21,21 +21,25 @@
   /// The title of your document. -> str
   title: str,
   /// A list of dictionaries with the authors. Each Auther should have following elements:
-  /// name: Name of the author -> str \
-  /// student-id: Student-ID of the author -> str \
-  /// course: Course of the author -> str \
-  /// course-of-studies: -> str \
-  /// company: Dictionary containing name -> str, post-code -> str, city -> str, country -> str
+  /// - `name`: Name of the author -> str
+  /// - `student-id`: Student-ID of the author -> str
+  /// - `course`: Course of the author -> str
+  /// - `course-of-studies`: Course of studies of the author -> str
+  /// - `company`: dictionary containing:
+  ///   - `name` -> str
+  ///   - `post-code` -> str
+  ///   - `city` -> str
+  ///   - `country` -> str
   /// -> dictionary
-  authors: dictionary,
+  authors: (:),
   /// The language in which this document is written. Currently supported are "de" and "en". -> str
-  language: str,
+  language: "en",
   /// Define if the document is written for the university. Setting this true will hide the company and confidentiality statement. -> bool
-  at-university: bool,
+  at-university: true,
   /// Show a red dot on the upper right corner of the title page. -> dictionary
   confidentiality-marker: (display: false),
   /// The type of the thesis, e.g. Bachelor Thesis or Paper. -> str
-  type-of-thesis: str,
+  type-of-thesis: none,
   /// Display the confidentiality statement. This will be ignored if `at-university` is set to true. -> bool
   show-confidentiality-statement: true,
   /// Display declaration-of-authorship. -> bool
@@ -63,7 +67,7 @@
   /// The space above a new level 1 chapter in outlines, should be equa to page-grid. -> length
   outline-new-chapter-spacing: 16pt,
   /// The abstract in the main language. -> content
-  abstract: content,
+  abstract: none,
   /// The abstarct in the second language, `second-language-for-abstract` must be set. -> content
   abstract-second-language: none,
   /// The language for a second abstarct. See `language` for options. -> str
@@ -91,7 +95,7 @@
   /// Dictionary containing the name of the supervisor with the "university" or "company". One of the two should be provided. -> str
   supervisor: (:),
   /// Datetime object to be displayed in the document. -> datetime
-  date: datetime,
+  date: datetime.today(),
   /// Date format to the be displayed. See Typst docs for mor information.  -> str
   date-format: "[day].[month].[year]",
   /// Bibliography object to be displayed.
