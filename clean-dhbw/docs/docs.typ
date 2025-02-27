@@ -1,6 +1,6 @@
 #import "@preview/tidy:0.4.1"
-#import "includes/ToDo.typ"
-#import "includes/custom-equation.typ"
+#import "../includes/ToDo.typ"
+#import "../includes/custom-equation.typ"
 
 #show outline.entry.where(level: 1): level1 => [
   #set text(weight: "bold", size: 1em)
@@ -34,12 +34,12 @@
 = Public functions
 
 // clean-dhbw
-#let clean-dhbw-docs = tidy.parse-module(read("lib.typ"), name: "Clean DHWB")
+#let clean-dhbw-docs = tidy.parse-module(read("../lib.typ"), name: "Clean DHWB")
 #tidy.show-module(clean-dhbw-docs, style: tidy.styles.default)
 
 // equations
 #let custom-equation-docs = tidy.parse-module(
-  read("includes/custom-equation.typ"),
+  read("../includes/custom-equation.typ"),
   name: "Custom equations",
   scope: (custom-equation: custom-equation),
   preamble: "#import custom-equation: *\n",
@@ -48,7 +48,7 @@
 
 // ToDo
 #let todo-docs = tidy.parse-module(
-  read("includes/todo.typ"),
+  read("../includes/todo.typ"),
   name: "ToDo",
   scope: (ToDo: ToDo),
   preamble: "#import ToDo: *\n",
@@ -60,7 +60,7 @@
 
 // custom outline entry
 #let custom-outline-entry-formatting-docs = tidy.parse-module(
-  read("includes/custom-outline-entry-formatting.typ"),
+  read("../includes/custom-outline-entry-formatting.typ"),
   name: "Custom outline Entry",
 )
 #tidy.show-module(custom-outline-entry-formatting-docs, style: tidy.styles.default)
