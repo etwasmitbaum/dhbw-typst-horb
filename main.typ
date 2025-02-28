@@ -87,10 +87,39 @@ Ohne Caption und mit Label geht auch:
 
 Verwende die `acr`-Funktion und deren Geschwister `acrpl`, `acrs` und `acrspl`, um Abkürzungen aus dem Abkürzungsverzeichnis einzufügen. Beispiele dafür sind:
 
-- #acr("HTTP") – `acr`: Singular mit Erläuterung
-- #acrpl("API") – `acrpl`: Plural mit Erläuterung
-- #acrs("REST") - `acrs`: Singular ohne Erläuterung
-- #acrspl("API") – `acrspl`: Plural ohne Erläuterung
+- #ac("HTTP") – `ac`: Singular mit Erläuterung
+  - #ac("HTTP") – `ac`:  aber die Erläuterung wird nur bei der ersten Verwendung angezeigt
+- #acpl("API") – `acpl`: Plural mit Erläuterung
+- #acs("REST") - `acs`: Singular ohne Erläuterung
+- #acspl("API") – `acspl`: Plural ohne Erläuterung
+
+Alle Möglichkeiten, wie Acronyme definiert und aufgerufen werden können:
+- Normal call: #ac("REST")
+- Normal call: #ac("REST")
+- Plural: #acpl("REST")
+- Short: #acs("REST")
+- Short Plural: #acspl("REST")
+- Long: #acl("REST")
+- Long Plural: #aclpl("REST")
+- Full Text: #acf("REST")
+- Full Text Plural: #acfpl("REST")
+- Normal call: #ac("HTTP")
+- Plural: #acpl("HTTP")
+- Short: #acs("HTTP")
+- Short Plural: #acspl("HTTP")
+- Long: #acl("HTTP")
+- Long Plural: #aclpl("HTTP")
+- Full Text: #acf("HTTP")
+- Full Text Plural: #acfpl("HTTP")
+- Normal call: #ac("SPS")
+- Normal call: #ac("SPS")
+- Plural: #acpl("SPS")
+- Short: #acs("SPS")
+- Short Plural: #acspl("SPS")
+- Long: #acl("SPS")
+- Long Plural: #aclpl("SPS")
+- Full Text: #acf("SPS")
+- Full Text Plural: #acfpl("SPS")
 
 == Listen
 

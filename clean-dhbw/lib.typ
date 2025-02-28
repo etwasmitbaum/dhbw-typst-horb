@@ -2,14 +2,14 @@
 // LTeX: enabled=false
 #import "@preview/codelst:2.0.2": *
 #import "@preview/hydra:0.6.0": hydra
-#import "includes/acronym-lib.typ": init-acronyms, print-acronyms, acr, acrpl, acrs, acrspl, acrl, acrlpl, acrf, acrfpl
+#import "includes/acronym-lib.typ": init-acronyms, print-acronyms, ac, acpl, acs, acspl, acl, aclpl, acf, acfpl
 #import "includes/glossary-lib.typ": init-glossary, print-glossary, gls
 #import "includes/locale.typ": TABLE_OF_CONTENTS, APPENDIX, REFERENCES
 #import "includes/titlepage.typ": *
 #import "includes/confidentiality-statement.typ": *
 #import "includes/declaration-of-authorship.typ": *
 #import "includes/check-attributes.typ": *
-#import "includes/custom-equation.typ"
+#import "includes/custom-equation.typ" : equation, outlined-equations
 #import "includes/custom-outline-entry-formatting.typ": *
 #import "includes/ToDo.typ": *
 
@@ -161,7 +161,7 @@
   let in-frontmatter = state("in-frontmatter", true) // to control page number format in frontmatter
   let in-body = state("in-body", true) // to control heading formatting in/outside of body
 
-  init-acronyms(acronyms)
+  init-acronyms(acronyms, show-acronyms)
   init-glossary(glossary)
 
   // Change the citation style
@@ -517,7 +517,7 @@
     heading(TABLE_OF_EQUATIONS.at(language))
     context {
       set text(font: heading-font, size: body-size)
-      for (_, (label, caption)) in custom-equation.outlined-equations.final() {
+      for (_, (label, caption)) in outlined-equations.final() {
         let page = counter(page).at(label).first()
 
         // if the counter is one, it must be the first element of its chapter, therefore insert a bit of space
@@ -620,7 +620,3 @@
     appendix
   }
 }
-
-// Eqation command for main.typ
-#let equation = custom-equation.equation
-#let todo = todo
