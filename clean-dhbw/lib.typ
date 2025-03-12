@@ -194,6 +194,9 @@
     },
   )
 
+  set list(indent: 1em)
+  set enum(indent: 1em)
+
   // set link style for links that are not acronyms
   let acronym-keys = if (acronyms != none) {
     acronyms.keys().map(acr => ("acronyms-" + acr))
