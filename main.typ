@@ -14,14 +14,19 @@
       course-of-studies: "Elektrotechnik",
       specialization: "Automation",
       work-weeks: "KW XX - KW XX",
-      company: (
-        (name: "ABC GmbH", post-code: "76131", city: "Karlsruhe")
-      ),
+      company: (name: "ABC GmbH", post-code: "76131", city: "Karlsruhe"),
     ),
-    // (name: "Juan Pérez", student-id: "1234567", course: "TIM21", course-of-studies: "Mobile Computer Science", company: (
-    //   (name: "ABC S.L.", post-code: "08005", city: "Barcelona", country: "Spain")
-    // )),
+    (
+      name: "Juan Pérez",
+      student-id: "1234567",
+      course: "TIM21",
+      course-of-studies: "Mobile Computer Science",
+      specialization: "Automation",
+      work-weeks: "KW XX - KW XX",
+      company: (name: "ABC S.L.", post-code: "08005", city: "Barcelona", country: "Spain"),
+    ),
   ),
+  //city: "Suttgart",
   type-of-thesis: "Bachelorarbeit",
   acronyms: acronyms, // displays the acronyms defined in the acronyms dictionary
   abstract: abstract,
@@ -88,7 +93,7 @@ Ohne Caption und mit Label geht auch:
 Verwende die `acr`-Funktion und deren Geschwister `acrpl`, `acrs` und `acrspl`, um Abkürzungen aus dem Abkürzungsverzeichnis einzufügen. Beispiele dafür sind:
 
 - #ac("HTTP") – `ac`: Singular mit Erläuterung
-  - #ac("HTTP") – `ac`:  aber die Erläuterung wird nur bei der ersten Verwendung angezeigt
+  - #ac("HTTP") – `ac`: aber die Erläuterung wird nur bei der ersten Verwendung angezeigt
 - #acpl("API") – `acpl`: Plural mit Erläuterung
 - #acs("REST") - `acs`: Singular ohne Erläuterung
 - #acspl("API") – `acspl`: Plural ohne Erläuterung

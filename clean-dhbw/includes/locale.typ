@@ -28,6 +28,16 @@
   "en": "Supervisor at ",
 )
 
+#let TITLEPAGE_BY = (
+  "de": "von ",
+  "en": "by",
+)
+
+#let TITLEPAGE_BY = (
+  "de": "von ",
+  "en": "by",
+)
+
 #let DECLARATION_OF_AUTHORSHIP_TITLE = (
   "de": "Ehrenwörtliche Erklärung",
   "en": "Declaration of Authorship",

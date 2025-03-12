@@ -57,7 +57,7 @@
 
   // ---------- Title ---------------------------------------
 
-  v(5 * page-grid)
+  v(3 * page-grid)
   text(weight: "bold", size: 2 * page-grid, title)
   v(page-grid)
 
@@ -66,7 +66,7 @@
   if (confidentiality-marker.display) {
     place(
       right,
-      dy: -10em,
+      dy: -9em,
       circle(radius: 1em, fill: red),
     )
   }
@@ -98,7 +98,7 @@
 
   // ---------- Author(s) ---------------------------------------
 
-  v(5 * page-grid)
+  v(2 * page-grid)
   grid(
     columns: 100%,
     gutter: if (many-authors) {
@@ -106,16 +106,16 @@
     } else {
       1.25 * page-grid
     },
+    TITLEPAGE_BY.at(language),
     ..authors.map(author => align(
       center,
       {
-        "von"
-        linebreak()
         text(author.name)
-        v(1.5 * page-grid)
-        text("Abgabe: " + date.display(date-format))
+        linebreak()
       },
-    ))
+    )),
+    v(1em),
+    date.display(date-format)
   )
 
   // ---------- Info-Block ---------------------------------------
@@ -144,80 +144,85 @@
       ),
 
       // company
-      if (not at-university) {
-        align(text(weight: "bold", fill: luma(80), TITLEPAGE_COMPANY.at(language)), top)
-      },
-      if (not at-university) {
-        stack(
-          dir: ttb,
-          for author in authors {
-            let company-address = ""
+      // extract the array inside the if statement, this makes the whole line disappear when the condition is false
+      ..if (not at-university) {
+        (
+          { align(text(weight: "bold", fill: luma(80), TITLEPAGE_COMPANY.at(language)), top) },
+          {
+            stack(
+              dir: ttb,
+              for author in authors {
+                let company-address = ""
 
-            // company name
-            if (
-              "name" in author.company and author.company.name != none and author.company.name != ""
-            ) {
-              company-address += author.company.name
-            } else {
-              panic(
-                "Author '"
-                  + author.name
-                  + "' is missing a company name. Add the 'name' attribute to the company object.",
-              )
-            }
+                // company name
+                if (
+                  "name" in author.company and author.company.name != none and author.company.name != ""
+                ) {
+                  company-address += author.company.name
+                } else {
+                  panic(
+                    "Author '"
+                      + author.name
+                      + "' is missing a company name. Add the 'name' attribute to the company object.",
+                  )
+                }
 
-            // company address (optional)
-            if (
-              "post-code" in author.company and author.company.post-code != none and author.company.post-code != ""
-            ) {
-              company-address += text([, #author.company.post-code])
-            }
+                // company address (optional)
+                if (
+                  "post-code" in author.company and author.company.post-code != none and author.company.post-code != ""
+                ) {
+                  company-address += text([, #author.company.post-code])
+                }
 
-            // company city
-            if (
-              "city" in author.company and author.company.city != none and author.company.city != ""
-            ) {
-              company-address += text([, #author.company.city])
-            } else {
-              panic(
-                "Author '"
-                  + author.name
-                  + "' is missing the city of the company. Add the 'city' attribute to the company object.",
-              )
-            }
+                // company city
+                if (
+                  "city" in author.company and author.company.city != none and author.company.city != ""
+                ) {
+                  company-address += text([, #author.company.city])
+                } else {
+                  panic(
+                    "Author '"
+                      + author.name
+                      + "' is missing the city of the company. Add the 'city' attribute to the company object.",
+                  )
+                }
 
-            // company country (optional)
-            if (
-              "country" in author.company and author.company.country != none and author.company.country != ""
-            ) {
-              company-address += text([, #author.company.country])
-            }
+                // company country (optional)
+                if (
+                  "country" in author.company and author.company.country != none and author.company.country != ""
+                ) {
+                  company-address += text([, #author.company.country])
+                }
 
-            company-address
-            linebreak()
+                company-address
+                linebreak()
+              },
+            )
           },
         )
       },
 
       // company supervisor
-      if ("company" in supervisor) {
-        text(weight: "bold", fill: luma(80), TITLEPAGE_COMPANY_SUPERVISOR.at(language))
-      },
-      if ("company" in supervisor and type(supervisor.company) == str) {
-        text(supervisor.company)
+      // extract the array inside the if statement, this makes the whole line disappear when the condition is false
+      ..if ("company" in supervisor and type(supervisor.company) == str and not at-university) {
+        (
+          text(weight: "bold", fill: luma(80), TITLEPAGE_COMPANY_SUPERVISOR.at(language)),
+          text(supervisor.company),
+        )
       },
 
       // university supervisor
-      if ("university" in supervisor) {
-        text(
-          weight: "bold",
-          fill: luma(80),
-          TITLEPAGE_SUPERVISOR.at(language) + university-short + [:],
+      // extract the array inside the if statement, this makes the whole line disappear when the condition is false
+      ..if ("university" in supervisor and type(supervisor.university) == str) {
+        (
+          text(
+            weight: "bold",
+            fill: luma(80),
+            TITLEPAGE_SUPERVISOR.at(language) + university-short + [:],
+          ),
+          text(supervisor.university),
         )
       },
-      if ("university" in supervisor and type(supervisor.university) == str) {
-        text(supervisor.university)
-      }
     ),
   )
 }
