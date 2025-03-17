@@ -595,7 +595,7 @@
   // ========== APPENDIX =======================================
 
   in-body.update(false)
-  set heading(numbering: "A.1")
+  set heading(numbering: "A 1.1")
   counter(heading).update(0)
 
   // ---------- Bibliography ---------------------------------------
