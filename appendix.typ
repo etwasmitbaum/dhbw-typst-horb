@@ -20,7 +20,8 @@
     $ (-b plus.minus sqrt(b^2 - 4 dot a dot c)) / (2 dot a) $,
   )
 
-  = Anhang 2
+  = Anhang 2 <anhang:secondAppendix>
   #figure(caption: "Eine Abbildung", image(width: 4cm, "assets/ts.svg"))
 
+  == Level 2 Anhang
 ]

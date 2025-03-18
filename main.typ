@@ -217,6 +217,8 @@ Für Literaturverweise verwendet man die `cite`-Funktion oder die Kurzschreibwei
 
 Tabellen, Abbildungen und andere Elemente können mit einem Label in spitzen Klammern gekennzeichnet werden (die Tabelle oben hat z.B. das Label `<table>`). Sie kann dann mit `@table` referenziert werden. Das ergibt im konkreten Fall: @table
 
+Ein Verweis auf @anhang:secondAppendix.
+
 = Fazit
 
 #lorem(50)

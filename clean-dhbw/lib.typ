@@ -595,7 +595,9 @@
   // ========== APPENDIX =======================================
 
   in-body.update(false)
-  set heading(numbering: "A 1.1")
+  set heading(numbering: "A 1.1", supplement: context {
+    APPENDIX.at(language)
+  })
   counter(heading).update(0)
 
   // ---------- Bibliography ---------------------------------------
