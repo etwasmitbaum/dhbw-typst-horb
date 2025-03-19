@@ -229,9 +229,7 @@
   /// Language to be used -> str
   language,
   /// Font to be used -> str
-  font,
-  /// Height of a single entry (line) -> length
-  entry-height,
+  font
 ) = {
   heading(level: 1, outlined: true)[#ACRONYMS.at(language)]
 
@@ -257,7 +255,6 @@
         front: [*#acr#label("acronyms-" + acr)*],
         mid: [#acl(acr)],
         front-max-width: max-width,
-        entry-height: entry-height,
       )
     }
   }

@@ -62,8 +62,6 @@
   glossary-spacing: 1.5em,
   /// The spacing between the chapter number the the heading in an outline entry. -> length
   outline-number-title-spacing: 1em,
-  /// The height of a outline entry (on single line). -> length
-  outline-entry-height: 1.1em,
   /// The space above a new level 1 chapter in outlines, should be equa to page-grid. -> length
   outline-new-chapter-spacing: 16pt,
   /// The abstract in the main language. -> content
@@ -382,9 +380,6 @@
 
   // top-level TOC entries in bold without filling
   show outline.entry.where(level: 1): level1 => {
-    // set block heigt for all level1 entries, so equaitons and figures have the same default height
-    set block(height: outline-entry-height)
-
     // Modify the display of heading in the outline
     if (level1.element.func() == heading) {
       set block(above: outline-new-chapter-spacing)
@@ -436,9 +431,6 @@
 
   // other TOC entries in regular with adapted filling
   show outline.entry.where(level: 2): level2 => {
-    // set block heigt for all level2 entries, so equaitons and figures have the same default height
-    set block(height: outline-entry-height)
-
     set text(font: heading-font, size: body-size)
     link(
       level2.element.location(),
@@ -455,9 +447,6 @@
   }
 
   show outline.entry.where(level: 3): level3 => {
-    // set block heigt for all level3 entries, so equaitons and figures have the same default height
-    set block(height: outline-entry-height)
-
     set text(font: heading-font, size: body-size)
     link(
       level3.element.location(),
@@ -534,7 +523,6 @@
           front: ref(label),
           mid: caption,
           back: page,
-          entry-height: outline-entry-height,
         )
       }
     }
@@ -544,7 +532,7 @@
 
   // Acronym
   if (show-acronyms and acronyms != none and acronyms.len() > 0) {
-    print-acronyms(language, heading-font, outline-entry-height) // Should be same font as other oulines
+    print-acronyms(language, heading-font) // Should be same font as other oulines
   }
 
   pagebreak(weak: true) // this is needed so the footer display the correct page number (else 0 or n would be displayed)

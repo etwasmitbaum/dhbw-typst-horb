@@ -295,5 +295,5 @@ In @mitternachtsformel ist die Mitternachtsformel zu sehen.
 )
 
 == Bilder
-#figure(caption: "Eine Abbildung", image(width: 4cm, "assets/ts.svg"))
+#figure(caption: "Eine Abbildung mit sehr sehr sehr sehr sehr sehr sehr sehr sehr sehr sehr sehr sehr sehr sehr sehr sehr sehr sehr sehr sehr langer Caption", image(width: 4cm, "assets/ts.svg"))
 #figure(caption: "Eine Abbildung", image(width: 4cm, "assets/ts.svg"))

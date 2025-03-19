@@ -16,26 +16,27 @@
   front-max-width: 1fr,
   /// The space inserted after front-max-width. If front-max-width is a fraction, this has no effect. -> length
   spacing-after-front: 3em,
-  /// The height of a single line (entry). -> length
-  entry-height: 1em,
 ) = {
   // Add extra space when front-max-width is not a fraction
   if type(front-max-width) != fraction {
     front-max-width = front-max-width + 3em
   }
 
-  box(
-    height: entry-height,
-    if location == none {
-      // wrap box with extra height around to create spacing
-      box([#front], width: front-max-width)
-      box([#mid], width: 4fr)
-      box([#back], width: auto)
-    } else {
-      // wrap box with extra height around to create spacing
-      box({ link(location, [#front]) }, width: front-max-width)
-      box({ link(location, [#mid]) }, width: 4fr)
-      box({ link(location, [#back]) }, width: auto)
-    },
+  set grid(
+    rows: 1,
+    columns: (front-max-width, 4fr, auto),
+    column-gutter: 1em,
+    row-gutter: 0em,
+    align: top
   )
+
+  if location == none {
+    grid(
+      [#front], [#mid], grid.cell([#back], align: bottom),
+    )
+  } else {
+    grid(
+      { link(location, [#front]) }, { link(location, [#mid]) }, grid.cell({ link(location, [#back]) }, align: bottom),
+    )
+  }
 }
