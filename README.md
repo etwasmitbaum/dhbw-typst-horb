@@ -36,6 +36,9 @@ If you need help using Typst, please use the official [Documentation](https://ty
 This Repo uses the [clean-dhbw-typst-template](https://github.com/roland-KA/clean-dhbw-typst-template)
 which most of this Template is based on. Many thanks to [@roland-KA](https://github.com/roland-KA).
 
+Also for the default citation style it uses the `din-1505-2-alphanumeric` style from the CSL project. You can read more about it here: https://citationstyles.org/
+
+
 ## Contribution
 If you want to contribute please use Pull Requests so that your changes can be reviewed and if necessary be enhanced to keep up the standards and recommendations of the DHBW.
 

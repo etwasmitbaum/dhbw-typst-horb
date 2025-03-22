@@ -214,6 +214,7 @@ Der Default ist hier gezeigt:
 Für Literaturverweise verwendet man die `cite`-Funktion oder die Kurzschreibweise mit dem \@-Zeichen:
 - `#cite(form: "prose", <iso18004>)` ergibt: \ #cite(form: "prose", <iso18004>)
 - Mit `@iso18004` erhält man: @iso18004
+- Seitenangabe ist mit @iso18004[S.~17] möglich
 
 Tabellen, Abbildungen und andere Elemente können mit einem Label in spitzen Klammern gekennzeichnet werden (die Tabelle oben hat z.B. das Label `<table>`). Sie kann dann mit `@table` referenziert werden. Das ergibt im konkreten Fall: @table
 

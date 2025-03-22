@@ -163,7 +163,7 @@
   init-glossary(glossary)
 
   // Change the citation style
-  set cite(style: "alphanumeric")
+  set cite(style: "includes/din-1505-2-alphanumeric.csl")
 
   // customize look of figure
   set figure.caption(separator: [ --- ], position: bottom)
@@ -440,6 +440,7 @@
         {
           level2.body()
           box(width: 1fr, align(right, repeat([.], gap: .4em, justify: false)), baseline: 30%, height: body-size + 1pt)
+          h(1em)
           level2.page()
         },
       ),
