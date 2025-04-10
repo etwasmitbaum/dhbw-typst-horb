@@ -229,7 +229,7 @@
   /// Language to be used -> str
   language,
   /// Font to be used -> str
-  font
+  font,
 ) = {
   heading(level: 1, outlined: true)[#ACRONYMS.at(language)]
 

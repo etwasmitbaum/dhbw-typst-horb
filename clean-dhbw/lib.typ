@@ -9,7 +9,7 @@
 #import "includes/confidentiality-statement.typ": *
 #import "includes/declaration-of-authorship.typ": *
 #import "includes/check-attributes.typ": *
-#import "includes/custom-equation.typ" : equation, outlined-equations
+#import "includes/custom-equation.typ": equation, outlined-equations
 #import "includes/custom-outline-entry-formatting.typ": *
 #import "includes/ToDo.typ": *
 
@@ -192,6 +192,17 @@
     },
   )
 
+  set table(
+    stroke: (x, y) => (
+      bottom: if y == 0 {1pt},
+      left: none,
+      right: none,
+    ),
+    align: center,
+  )
+
+
+  // set indentation to 1em
   set list(indent: 1em)
   set enum(indent: 1em)
 
@@ -584,9 +595,12 @@
   // ========== APPENDIX =======================================
 
   in-body.update(false)
-  set heading(numbering: "A1.1", supplement: context {
-    APPENDIX.at(language)
-  })
+  set heading(
+    numbering: "A1.1",
+    supplement: context {
+      APPENDIX.at(language)
+    },
+  )
   counter(heading).update(0)
 
   // ---------- Bibliography ---------------------------------------
