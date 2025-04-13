@@ -201,6 +201,8 @@
     align: center,
   )
 
+  // change font of Code
+  show raw: text(font: "Consolas")
 
   // set indentation to 1em
   set list(indent: 1em)
@@ -564,6 +566,7 @@
     v(page-grid, weak: true)
   }
 
+  show heading.where(level: 1): set heading(supplement: CHAPTER.at(language))
   show heading.where(level: 1): it => {
     set par(leading: 0pt, justify: false)
     pagebreak()

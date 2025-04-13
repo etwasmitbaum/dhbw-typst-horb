@@ -200,3 +200,8 @@
   "de": "Code",
   "en": "Code",
 )
+
+#let CHAPTER = (
+  "de": "Kapitel",
+  "en": "Chapter",
+)
