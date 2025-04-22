@@ -202,7 +202,7 @@
   )
 
   // change font of Code
-  show raw: text(font: "Consolas")
+  show raw: set text(font: "Consolas")
 
   // set indentation to 1em
   set list(indent: 1em)
