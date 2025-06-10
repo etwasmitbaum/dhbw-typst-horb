@@ -16,8 +16,28 @@
   /// Creates links the output of @print-acronyms.
   link-acros-to-toc,
 ) = {
-  acros.update(acronyms)
+  let states = (:)
+  for (acr, defs) in acronyms {
+    // Add metadata to each entry.
+    // the boolean is "was it used before in the document?", used for the used-only filtering in the index.
+    let data = (defs, false)
+    states.insert(acr, data)
+  }
+  acros.update(states)
   link-to-toc.update(link-acros-to-toc)
+}
+
+#let mark-acr-used(acr) = {
+  // Mark an acronym as used.
+
+  // Generate the key associated with this acronym
+  let state-key = "acronym-state-" + acr
+  acros.update(data => {
+    let ndata = data
+    // Change both booleans to mark it used until reset AND in the overall document.
+    ndata.at(acr).at(1) = true
+    ndata
+  })
 }
 
 /// Display an acronym in the short form
@@ -36,7 +56,7 @@
     let acronyms = acros.get()
 
     assert-in-dict("acronyms", acros, acr)
-    let defs = acronyms.at(acr)
+    let defs = acronyms.at(acr).at(0)
 
     if type(defs) == str {
       if plural {
@@ -68,6 +88,8 @@
     } else {
       panic("Definitions should be arrays of one or two strings. Definition of " + acr + " is: " + type(defs))
     }
+
+    mark-acr-used(acr)
   }
 }
 
@@ -100,7 +122,7 @@
     let acronyms = acros.get()
 
     assert-in-dict("acronyms", acros, acr)
-    let defs = acronyms.at(acr)
+    let defs = acronyms.at(acr).at(0) // select without used state
     // Type is string -> plural will add "s"
     if type(defs) == str {
       if plural {
@@ -138,6 +160,7 @@
     } else {
       panic("Definitions should be arrays of one or two strings. Definition of " + acr + " is: " + type(defs))
     }
+    mark-acr-used(acr)
   }
 }
 
@@ -177,6 +200,8 @@
       display("acronyms", acros, acr, [#acl(acr) (#acr)], link: link)
     }
     state(prefix + acr, false).update(true)
+
+    mark-acr-used(acr)
   }
 }
 
@@ -210,6 +235,7 @@
         acf(acr)
       }
     }
+    mark-acr-used(acr)
   }
 }
 
@@ -237,8 +263,17 @@
     let acronyms = acros.get()
     let acronym-keys = acronyms.keys()
 
-    let max-width = 0pt
+    // Select only acronyms where state is true at the end of the document.
+    let acronyms = acros.final()
+    let used-acr-list = ()
     for acr in acronym-keys {
+      if acros.final().at(acr).at(1) {
+        used-acr-list.push(acr)
+      }
+    }
+
+    let max-width = 0pt
+    for acr in used-acr-list {
       let result = measure(acr).width
 
       if (result > max-width) {
@@ -246,7 +281,7 @@
       }
     }
 
-    let acr-list = acronym-keys.sorted()
+    let acr-list = used-acr-list.sorted()
 
     for acr in acr-list {
       set text(font: font)
