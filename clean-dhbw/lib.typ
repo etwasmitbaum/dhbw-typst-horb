@@ -2,7 +2,7 @@
 // LTeX: enabled=false
 #import "@preview/codelst:2.0.2": *
 #import "@preview/hydra:0.6.0": hydra
-#import "includes/acronym-lib.typ": init-acronyms, print-acronyms, ac, acpl, acs, acspl, acl, aclpl, acf, acfpl
+#import "includes/acronym-lib.typ": init-acronyms, print-acronyms, ac, acp, acl, aclp, acs, acsp, ac-custom, ac-suffix, update-acro-lang, update-acro-second-lang, update-acronym-long-shown, update-acronym-used 
 #import "includes/glossary-lib.typ": init-glossary, print-glossary, gls
 #import "includes/locale.typ": TABLE_OF_CONTENTS, APPENDIX, REFERENCES
 #import "includes/titlepage.typ": *
@@ -159,7 +159,7 @@
   let in-frontmatter = state("in-frontmatter", true) // to control page number format in frontmatter
   let in-body = state("in-body", true) // to control heading formatting in/outside of body
 
-  init-acronyms(acronyms, show-acronyms)
+  init-acronyms(acronyms, language, always-link: show-acronyms)
   init-glossary(glossary)
 
   // Change the citation style

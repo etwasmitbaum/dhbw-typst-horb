@@ -94,37 +94,31 @@ Verwende die `acr`-Funktion und deren Geschwister `acrpl`, `acrs` und `acrspl`, 
 
 - #ac("HTTP") – `ac`: Singular mit Erläuterung
   - #ac("HTTP") – `ac`: aber die Erläuterung wird nur bei der ersten Verwendung angezeigt
-- #acpl("API") – `acpl`: Plural mit Erläuterung
+- #aclp("API") – `acpl`: Plural mit Erläuterung
 - #acs("REST") - `acs`: Singular ohne Erläuterung
-- #acspl("API") – `acspl`: Plural ohne Erläuterung
+- #acsp("API") – `acspl`: Plural ohne Erläuterung
 
 Alle Möglichkeiten, wie Acronyme definiert und aufgerufen werden können:
 - Normal call: #ac("REST")
 - Normal call: #ac("REST")
-- Plural: #acpl("REST")
+- Plural: #acp("REST")
 - Short: #acs("REST")
-- Short Plural: #acspl("REST")
+- Short Plural: #acsp("REST")
 - Long: #acl("REST")
-- Long Plural: #aclpl("REST")
-- Full Text: #acf("REST")
-- Full Text Plural: #acfpl("REST")
+- Long Plural: #aclp("REST")
 - Normal call: #ac("HTTP")
-- Plural: #acpl("HTTP")
+- Plural: #acp("HTTP")
 - Short: #acs("HTTP")
-- Short Plural: #acspl("HTTP")
+- Short Plural: #acsp("HTTP")
 - Long: #acl("HTTP")
-- Long Plural: #aclpl("HTTP")
-- Full Text: #acf("HTTP")
-- Full Text Plural: #acfpl("HTTP")
+- Long Plural: #aclp("HTTP")
 - Normal call: #ac("SPS")
 - Normal call: #ac("SPS")
-- Plural: #acpl("SPS")
+- Plural: #acp("SPS")
 - Short: #acs("SPS")
-- Short Plural: #acspl("SPS")
+- Short Plural: #acsp("SPS")
 - Long: #acl("SPS")
-- Long Plural: #aclpl("SPS")
-- Full Text: #acf("SPS")
-- Full Text Plural: #acfpl("SPS")
+- Long Plural: #aclp("SPS")
 
 == Listen
 

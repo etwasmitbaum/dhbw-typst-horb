@@ -1,252 +1,6 @@
 #import "locale.typ": ACRONYMS
-#import "shared-lib.typ": display, display-link, assert-in-dict
+#import "@preview/i-am-acro:0.1.0": *
 #import "custom-outline-entry-formatting.typ": *
-
-#let prefix = "acronym-state-"
-#let acros = state("acronyms", none)
-#let link-to-toc = state("link-acros-to-toc", true)
-
-/// Initialize the acronym. \
-/// This will set the dictionary containing all acronyms and define, if they should be linked to the @print-acronyms.
-#let init-acronyms(
-  /// Dicttionary containing all acronyms.
-  /// See #link(<AcroDefacronyms>, "Define Aconyms") for more information.
-  /// -> dictionary
-  acronyms,
-  /// Creates links the output of @print-acronyms.
-  link-acros-to-toc,
-) = {
-  let states = (:)
-  for (acr, defs) in acronyms {
-    // Add metadata to each entry.
-    // the boolean is "was it used before in the document?", used for the used-only filtering in the index.
-    let data = (defs, false)
-    states.insert(acr, data)
-  }
-  acros.update(states)
-  link-to-toc.update(link-acros-to-toc)
-}
-
-#let mark-acr-used(acr) = {
-  // Mark an acronym as used.
-
-  // Generate the key associated with this acronym
-  let state-key = "acronym-state-" + acr
-  acros.update(data => {
-    let ndata = data
-    // Change both booleans to mark it used until reset AND in the overall document.
-    ndata.at(acr).at(1) = true
-    ndata
-  })
-}
-
-/// Display an acronym in the short form
-/// ```example
-/// Short form: #acs("SPS")
-/// ```
-/// -> str
-#let acs(
-  /// Acronym key -> str
-  acr,
-  /// Display the plural form-> bool
-  plural: false,
-) = {
-  context {
-    let link = link-to-toc.get()
-    let acronyms = acros.get()
-
-    assert-in-dict("acronyms", acros, acr)
-    let defs = acronyms.at(acr).at(0)
-
-    if type(defs) == str {
-      if plural {
-        display("acronyms", acros, acr, acr + "s", link: link)
-      } else {
-        display("acronyms", acros, acr, acr, link: link)
-      }
-    } else if type(defs) == array {
-      if defs.len() == 0 {
-        panic(
-          "No definitions found for acronym "
-            + acr
-            + ". Make sure it is defined in the dictionary passed to #init-acronyms(dict)",
-        )
-      }
-      if plural {
-        if defs.len() == 1 {
-          display("acronyms", acros, acr, acr + "s", link: link)
-        } else if defs.len() == 2 {
-          display("acronyms", acros, acr, defs.at(1).at(0), link: link)
-        }
-      } else {
-        if defs.len() == 1 {
-          display("acronyms", acros, acr, acr, link: link)
-        } else if defs.len() == 2 {
-          display("acronyms", acros, acr, defs.at(0).at(0), link: link)
-        }
-      }
-    } else {
-      panic("Definitions should be arrays of one or two strings. Definition of " + acr + " is: " + type(defs))
-    }
-
-    mark-acr-used(acr)
-  }
-}
-
-/// Display an acronym in the short-plural form
-/// ```example
-/// Short plural form: #acspl("SPS")
-/// ```
-/// -> str
-#let acspl(
-  /// Acronym key -> str
-  acr,
-) = {
-  acs(acr, plural: true)
-}
-
-/// Display an acronym in the long form.
-/// ```example
-/// Long form: \
-/// #acl("SPS")
-/// ```
-/// -> str
-#let acl(
-  /// Acronym key -> str
-  acr,
-  /// Display the plural form -> bool
-  plural: false,
-) = {
-  context {
-    let link = link-to-toc.get()
-    let acronyms = acros.get()
-
-    assert-in-dict("acronyms", acros, acr)
-    let defs = acronyms.at(acr).at(0) // select without used state
-    // Type is string -> plural will add "s"
-    if type(defs) == str {
-      if plural {
-        display("acronyms", acros, acr, defs + "s", link: link)
-      } else {
-        display("acronyms", acros, acr, defs, link: link)
-      }
-    } // Type is array -> plural possibly provided
-    else if type(defs) == array {
-      if defs.len() == 0 {
-        panic(
-          "No definitions found for acronym "
-            + acr
-            + ". Make sure it is defined in the dictionary passed to #init-acronyms(dict)",
-        )
-      }
-      if plural {
-        // Array but length 1 -> no plural provided, add "s"
-        if defs.len() == 1 {
-          display("acronyms", acros, acr, defs.at(0) + "s", link: link)
-        } // Length is 2 -> plural provided
-        else if defs.len() == 2 {
-          display("acronyms", acros, acr, defs.at(1).at(1), link: link)
-        } else {
-          panic("Definitions should be arrays of one or two strings. Definition of " + acr + " is: " + type(defs))
-        }
-      } /// Plural not requested
-      else {
-        if defs.len() == 1 {
-          display("acronyms", acros, acr, defs.at(0), link: link)
-        } else if defs.len() == 2 {
-          display("acronyms", acros, acr, defs.at(0).at(1), link: link)
-        }
-      }
-    } else {
-      panic("Definitions should be arrays of one or two strings. Definition of " + acr + " is: " + type(defs))
-    }
-    mark-acr-used(acr)
-  }
-}
-
-/// Display an acronym in the long plural form.
-/// ```example
-/// Long plural form: \
-/// #aclpl("SPS")
-/// ```
-/// -> str
-#let aclpl(
-  /// Acronym key -> str
-  acr,
-) = {
-  acl(
-    acr,
-    plural: true,
-  )
-}
-
-/// Display an acronym as if it is shown for the first time.
-/// ```example
-/// As shown for the first time: \
-/// #acf("SPS")
-/// ```
-/// -> str
-#let acf(
-  /// Acronym key -> str
-  acr,
-  /// Display the plural form -> bool
-  plural: false,
-) = {
-  context {
-    let link = link-to-toc.get()
-    if plural {
-      display("acronyms", acros, acr, [#aclpl(acr) (#acr\s)], link: link)
-    } else {
-      display("acronyms", acros, acr, [#acl(acr) (#acr)], link: link)
-    }
-    state(prefix + acr, false).update(true)
-
-    mark-acr-used(acr)
-  }
-}
-
-/// Display an acronym in the long plural form as if it is shown for the first time.
-/// ```example
-/// Long plural, as shown for the first time: \
-/// #acfpl("SPS")
-/// ```
-/// -> str
-#let acfpl(
-  /// Acronym key -> str
-  acr,
-) = {
-  acf(acr, plural: true)
-}
-
-#let ac(acr, plural: false) = {
-  context {
-    let seen = state(prefix + acr, false).get()
-
-    if seen {
-      if plural {
-        acspl(acr)
-      } else {
-        acs(acr)
-      }
-    } else {
-      if plural {
-        acfpl(acr)
-      } else {
-        acf(acr)
-      }
-    }
-    mark-acr-used(acr)
-  }
-}
-
-/// Display an acronym in the plural form.
-/// ```example
-/// Plural form: #acpl("SPS")
-/// ```
-/// -> str
-#let acpl(acronym) = {
-  ac(acronym, plural: true)
-}
 
 /// Print all used acronyms in a outline. \
 /// Using this with `link-to-toc` true, will couse all acronyms to be linked to here.
@@ -259,38 +13,41 @@
 ) = {
   heading(level: 1, outlined: true)[#ACRONYMS.at(language)]
 
-  context {
-    let acronyms = acros.get()
-    let acronym-keys = acronyms.keys()
+  update-acro-lang(language)
 
-    // Select only acronyms where state is true at the end of the document.
-    let acronyms = acros.final()
-    let used-acr-list = ()
-    for acr in acronym-keys {
-      if acros.final().at(acr).at(1) {
-        used-acr-list.push(acr)
+  context {
+    let final-acronyms = _acronyms.final()
+    let default-lang-final = _default-lang.get()
+    let printable-acronyms = (:)
+
+    for (key, (value, used, long-shown)) in final-acronyms {
+      if used {
+        // extract only used acronyms with their default-lang short and long form
+        let short-long = (value.at(default-lang-final).short, value.at(default-lang-final).long)
+        printable-acronyms.insert(str(key), short-long)
       }
     }
 
-    let max-width = 0pt
-    for acr in used-acr-list {
-      let result = measure(acr).width
+    printable-acronyms = printable-acronyms.pairs().sorted(key: it => it.at(0))
 
+    let max-width = 0pt
+    for (key, value) in printable-acronyms {
+      let result = measure(value.at(0)).width
       if (result > max-width) {
         max-width = result
       }
     }
 
-    let acr-list = used-acr-list.sorted()
 
-    for acr in acr-list {
+    for (key, value) in printable-acronyms {
       set text(font: font)
       custom-outline-entry-formatting(
         location: none,
-        front: [*#acr#label("acronyms-" + acr)*],
-        mid: [#acl(acr)],
+        front: [*#value.at(0)#label(LABEL_KEY + key)*],
+        mid: [#value.at(1)],
         front-max-width: max-width,
       )
     }
   }
 }
+
