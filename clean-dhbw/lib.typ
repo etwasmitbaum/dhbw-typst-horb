@@ -530,7 +530,7 @@
         // the same is used above for figures etc
         let count = counter(math.equation).at(label)
         if count.first() == 1 {
-          v(outline-new-chapter-spacing, weak: true) // make it weak, so no unneeded space gets created
+          v(outline-new-chapter-spacing, weak: false)
         }
         context custom-outline-entry-formatting(
           location: label,
